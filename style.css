@@ -267,3 +267,645 @@ body.paged-mode > footer span { min-width: 0; }
 /* Pastikan halaman aktif tidak menambah ruang kosong berlebihan di bawah navigasi. */
 body.paged-mode main > section.active-page { min-width: 0; }
 body.paged-mode main > section.active-page .page-navigation { box-sizing: border-box; }
+
+/* FINAL RESPONSIVE FOOTER FIX — footer mengikuti isi, tidak memanjang memenuhi layar */
+body.paged-mode main > footer {
+  display: flex !important;
+  position: relative !important;
+  inset: auto !important;
+  flex: 0 0 auto !important;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none;
+  margin: 0 !important;
+  padding: 14px clamp(16px, 7vw, 100px) !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  background: #fffaf7;
+  color: #ad969d;
+  font-size: clamp(8px, .7vw, 10px);
+  line-height: 1.5;
+  letter-spacing: .35px;
+  box-sizing: border-box;
+}
+body.paged-mode main > footer > span {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  body.paged-mode main > footer {
+    padding: 12px 18px !important;
+    gap: 8px 14px;
+    font-size: 8px;
+  }
+}
+@media (max-width: 360px) {
+  body.paged-mode main > footer {
+    padding: 11px 12px !important;
+    gap: 6px 10px;
+    font-size: 7px;
+  }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  body.paged-mode main > footer {
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+  }
+}
+
+
+/* Surat dibaca dalam tampilan bersih: tanpa header, footer, atau scroll halaman belakang. */
+body.letter-reading { overflow: hidden !important; }
+body.letter-reading > .topbar,
+body.letter-reading > .ambient,
+body.letter-reading main > footer,
+body.letter-reading > footer { display: none !important; }
+body.letter-reading .letter-modal.show {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; overflow: hidden; background: #fffaf5;
+}
+body.letter-reading .letter-modal .modal-backdrop { display: none; }
+body.letter-reading .letter-full {
+  width: 100%; max-width: 900px; height: 100%; max-height: 100%;
+  overflow-y: auto; overflow-x: hidden; border-radius: 0; box-shadow: none;
+  padding: clamp(28px, 6vw, 72px) clamp(22px, 9vw, 110px);
+  padding-top: max(28px, env(safe-area-inset-top));
+  padding-bottom: max(28px, env(safe-area-inset-bottom));
+}
+body.letter-reading .letter-full .eyebrow { display: none; }
+body.letter-reading .letter-full h3 { margin-top: 12px; }
+body.letter-reading .modal-close { position: fixed; top: max(12px, env(safe-area-inset-top)); right: 18px; z-index: 2; }
+body.letter-reading main > section { visibility: hidden; }
+body.letter-reading .letter-modal { visibility: visible; }
+/* Footer dan konten tidak menimbulkan scroll horizontal atau bisa digeser terpisah. */
+body.paged-mode { overflow-x: clip; }
+body.paged-mode main > footer { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+
+
+/* HAPUS SELURUH AREA FOOTER, BUKAN HANYA TEKSNYA. Navigasi per halaman tetap aktif. */
+body.paged-mode footer,
+body.paged-mode main > footer,
+body.paged-mode .video-page-footer {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+/* Tombol Sebelumnya/Selanjutnya adalah navigasi halaman, bukan footer. */
+body.paged-mode main > section.active-page .page-navigation {
+  display: flex !important;
+}
+
+
+/* PERBAIKAN AKHIR: konten tidak tertutup navigasi dan jarak bawah konsisten. */
+body.paged-mode main > section.active-page:not(#videos) {
+  position: relative;
+  display: block;
+  height: auto !important;
+  min-height: calc(100svh - 76px);
+  max-height: none !important;
+  overflow: visible !important;
+  padding-bottom: clamp(24px, 4vh, 48px) !important;
+}
+body.paged-mode main > section.active-page:not(#videos) .page-navigation {
+  position: relative !important;
+  inset: auto !important;
+  z-index: 1;
+  clear: both;
+  margin-top: clamp(24px, 4vh, 42px) !important;
+  margin-bottom: 0 !important;
+  padding: 16px 0 0 !important;
+  min-height: 52px;
+  background: transparent !important;
+}
+body.paged-mode main > section.active-page:not(#videos) .page-navigation button {
+  position: relative;
+  flex: 0 0 auto;
+  max-width: 48%;
+  white-space: normal;
+  line-height: 1.4;
+}
+body.paged-mode main > section.active-page:not(#videos) .page-navigation .page-counter {
+  flex: 0 1 auto;
+  padding: 0 8px;
+}
+body.paged-mode footer,
+body.paged-mode main > footer,
+body.paged-mode .video-page-footer {
+  display: none !important;
+}
+
+/* Tombol tutup surat selalu terlihat dan surat dapat ditutup untuk kembali ke halaman. */
+body.letter-reading .letter-full { position: relative; }
+body.letter-reading .modal-close {
+  display: grid !important;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #e8cbd3;
+  border-radius: 50%;
+  background: #fffaf5;
+  color: #8e596b;
+  font: 28px/1 Arial, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 4px 16px #6e39451c;
+}
+@media (max-width: 760px) {
+  body.paged-mode main > section.active-page:not(#videos) {
+    min-height: calc(100svh - 64px);
+    padding-bottom: 24px !important;
+  }
+  body.paged-mode main > section.active-page:not(#videos) .page-navigation {
+    gap: 8px;
+    margin-top: 22px !important;
+    padding-top: 13px !important;
+  }
+  body.paged-mode main > section.active-page:not(#videos) .page-navigation button {
+    padding: 11px 10px;
+    font-size: 10px;
+  }
+  body.letter-reading .letter-full {
+    padding: 72px 22px max(28px, env(safe-area-inset-bottom));
+  }
+  body.letter-reading .modal-close {
+    position: fixed;
+    top: max(12px, env(safe-area-inset-top));
+    right: 14px;
+  }
+}
+
+/* RESPONSIVE FIX: foto halaman pertama tetap bundar dan mempertahankan skala yang seimbang. */
+body.paged-mode #home .main-frame {
+  width: clamp(220px, 30vw, 340px) !important;
+  height: clamp(220px, 30vw, 340px) !important;
+  aspect-ratio: 1 / 1;
+  padding: 0 !important;
+  border: 5px solid #fff !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  transform: none !important;
+  background: #f7e5e5;
+}
+body.paged-mode #home .main-frame img {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+}
+body.paged-mode #home .main-frame .photo-placeholder-text {
+  inset: 0 !important;
+  border-radius: 50% !important;
+  padding: 20px;
+  font-size: clamp(14px, 2vw, 22px);
+}
+body.paged-mode #home .hero-art { min-width: 0; }
+
+/* Halaman surat: layout tidak terpotong pada layar kecil maupun pendek. */
+body.paged-mode #letter.active-page {
+  min-height: 0 !important;
+  padding-top: clamp(24px, 5vh, 58px) !important;
+  padding-bottom: clamp(18px, 3vh, 30px) !important;
+}
+body.paged-mode #letter.active-page .letter-section {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(18px, 4vw, 54px);
+  padding-left: clamp(18px, 7vw, 100px) !important;
+  padding-right: clamp(18px, 7vw, 100px) !important;
+  padding-top: clamp(24px, 5vh, 55px) !important;
+  padding-bottom: clamp(24px, 5vh, 55px) !important;
+  overflow: visible !important;
+}
+body.paged-mode #letter .letter-side,
+body.paged-mode #letter .envelope-wrap { min-width: 0; }
+body.paged-mode #letter .envelope-wrap { width: 100%; }
+body.paged-mode #letter .page-navigation { margin-top: clamp(14px, 2.5vh, 24px) !important; }
+
+/* Saat surat dibuka, SATU area scroll menggerakkan seluruh surat, bukan hanya paragrafnya. */
+body.letter-reading { overflow: hidden !important; }
+body.letter-reading .letter-modal.show {
+  position: fixed !important;
+  inset: 0 !important;
+  display: block !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: #fffaf5;
+  scrollbar-gutter: stable;
+}
+body.letter-reading .letter-modal .modal-backdrop { display: none !important; }
+body.letter-reading .letter-modal .letter-full {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 900px !important;
+  height: auto !important;
+  min-height: 100dvh;
+  max-height: none !important;
+  margin: 0 auto !important;
+  overflow: visible !important;
+  padding: max(76px, calc(env(safe-area-inset-top) + 66px)) clamp(20px, 8vw, 100px) max(42px, calc(env(safe-area-inset-bottom) + 30px)) !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background-color: #fffaf5;
+  background-image: repeating-linear-gradient(transparent, transparent 31px, #eedfe1 32px);
+  overflow-wrap: anywhere;
+}
+body.letter-reading .letter-full h3 {
+  margin: 8px 0 24px !important;
+  font-size: clamp(25px, 4vw, 36px) !important;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+body.letter-reading .letter-body {
+  font-size: clamp(14px, 1.7vw, 16px) !important;
+  line-height: 1.95 !important;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+body.letter-reading .letter-end { margin-bottom: 12px; }
+body.letter-reading .modal-close {
+  position: fixed !important;
+  top: max(12px, env(safe-area-inset-top)) !important;
+  right: max(14px, env(safe-area-inset-right)) !important;
+  z-index: 10001 !important;
+}
+@media (max-width: 760px) {
+  body.paged-mode #home .main-frame {
+    width: clamp(210px, 66vw, 300px) !important;
+    height: clamp(210px, 66vw, 300px) !important;
+  }
+  body.paged-mode #home .hero {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+    padding-top: 42px !important;
+    padding-bottom: 28px !important;
+  }
+  body.paged-mode #home .hero-art {
+    height: auto !important;
+    min-height: 300px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  body.paged-mode #home .sun-disc { width: min(65vw, 280px); right: 10%; }
+  body.paged-mode #letter.active-page .letter-section {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    padding: 28px 20px 22px !important;
+  }
+  body.paged-mode #letter .letter-side h2 { font-size: clamp(30px, 8vw, 42px); }
+  body.paged-mode #letter .letter-caption { margin-top: 18px; line-height: 1.6; }
+  body.paged-mode #letter .envelope-wrap { min-height: 285px; }
+  body.paged-mode #letter .envelope { width: min(100%, 320px); }
+  body.letter-reading .letter-modal .letter-full {
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+    padding-top: max(72px, calc(env(safe-area-inset-top) + 62px)) !important;
+    padding-bottom: max(34px, calc(env(safe-area-inset-bottom) + 24px)) !important;
+  }
+  body.letter-reading .letter-body { font-size: 14px !important; line-height: 1.85 !important; }
+}
+@media (max-width: 390px) {
+  body.paged-mode #home .main-frame {
+    width: min(72vw, 260px) !important;
+    height: min(72vw, 260px) !important;
+  }
+  body.paged-mode #letter.active-page .letter-section { padding-left: 16px !important; padding-right: 16px !important; }
+  body.letter-reading .letter-modal .letter-full { padding-left: 18px !important; padding-right: 18px !important; }
+}
+@media (max-height: 600px) and (min-width: 761px) {
+  body.paged-mode #home .hero { padding-top: 28px !important; padding-bottom: 24px !important; min-height: 0 !important; }
+  body.paged-mode #home .hero-art { height: 300px !important; }
+  body.paged-mode #home .main-frame { width: min(27vw, 260px) !important; height: min(27vw, 260px) !important; }
+}
+
+
+/* FIX FINAL: modal surat punya satu scroll utuh dan tombol kembali selalu dapat ditekan. */
+body.letter-reading .letter-modal.show {
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  touch-action: pan-y !important;
+}
+body.letter-reading .letter-modal .letter-full {
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding-top: max(76px, calc(env(safe-area-inset-top) + 66px)) !important;
+  padding-bottom: max(48px, calc(env(safe-area-inset-bottom) + 32px)) !important;
+}
+body.letter-reading .letter-modal .modal-close {
+  position: fixed !important;
+  display: grid !important;
+  place-items: center !important;
+  top: max(12px, env(safe-area-inset-top)) !important;
+  right: max(14px, env(safe-area-inset-right)) !important;
+  width: 46px !important;
+  height: 46px !important;
+  z-index: 10010 !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  background: #fffaf5 !important;
+  border: 1px solid #e8cbd3 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 16px #6e39451c !important;
+}
+/* Foto utama tetap bundar dan tidak memakai warna bingkai yang mengubah kesan latar foto. */
+body.paged-mode #home .main-frame {
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  box-shadow: 0 16px 38px #80525a26 !important;
+}
+body.paged-mode #home .main-frame img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  background: transparent !important;
+}
+body.paged-mode #home .main-frame.photo-placeholder {
+  background: linear-gradient(145deg,#f8dce2,#f4e6d9) !important;
+}
+@media (max-width: 760px) {
+  body.letter-reading .letter-modal .letter-full {
+    padding-left: clamp(18px, 5vw, 28px) !important;
+    padding-right: clamp(18px, 5vw, 28px) !important;
+  }
+}
+
+
+/* NAVIGASI MENEMPEL DI BAGIAN PALING BAWAH HALAMAN AKTIF TANPA RUANG KOSONG */
+body.paged-mode main > section.active-page {
+  position: relative;
+  min-height: calc(100vh - 76px);
+  min-height: calc(100dvh - 76px);
+  padding-bottom: 78px !important;
+  margin-bottom: 0 !important;
+}
+body.paged-mode main > section.active-page > .page-navigation {
+  position: absolute !important;
+  left: clamp(22px, 9vw, 130px);
+  right: clamp(22px, 9vw, 130px);
+  bottom: 0 !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 12px 0 max(12px, env(safe-area-inset-bottom)) !important;
+  border-top: 1px solid var(--line);
+  background: inherit;
+  z-index: 10;
+}
+/* Pada halaman yang kontennya tinggi, navigasi tetap mengikuti bagian paling bawah konten. */
+body.paged-mode main > section.active-page:has(> .page-navigation) {
+  min-height: calc(100dvh - 76px);
+}
+body.paged-mode main > section.active-page#videos {
+  min-height: 100dvh;
+  padding-bottom: 0 !important;
+}
+@media (max-width: 760px) {
+  body.paged-mode main > section.active-page {
+    min-height: calc(100dvh - 65px);
+    padding-bottom: 70px !important;
+  }
+  body.paged-mode main > section.active-page > .page-navigation {
+    left: 23px; right: 23px;
+    padding: 10px 0 max(10px, env(safe-area-inset-bottom)) !important;
+    gap: 8px;
+  }
+}
+@media (max-width: 390px) {
+  body.paged-mode main > section.active-page > .page-navigation { left: 16px; right: 16px; }
+}
+/* Pastikan elemen footer lama benar-benar tidak menyisakan tinggi halaman. */
+body.paged-mode main > footer, body.paged-mode > footer { display: none !important; height: 0 !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; border: 0 !important; }
+
+/* FINAL FIX: navigasi selalu di dasar setiap halaman aktif */
+body.paged-mode main > section.active-page {
+  position: relative !important;
+  min-height: calc(100dvh - 76px) !important;
+  padding-bottom: 86px !important;
+  margin-bottom: 0 !important;
+}
+body.paged-mode main > section.active-page > nav.page-navigation {
+  position: absolute !important;
+  inset-inline: clamp(22px, 9vw, 130px) !important;
+  bottom: 0 !important;
+  top: auto !important;
+  width: auto !important;
+  min-height: 58px !important;
+  margin: 0 !important;
+  padding: 12px 0 max(12px, env(safe-area-inset-bottom)) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border-top: 1px solid var(--line) !important;
+  background: inherit !important;
+  z-index: 15 !important;
+  grid-column: auto !important;
+}
+body.paged-mode #home.active-page .scroll-cue { display: none !important; }
+body.paged-mode #videos.active-page {
+  min-height: 100dvh !important;
+  padding-bottom: 0 !important;
+}
+@media (max-width: 760px) {
+  body.paged-mode main > section.active-page {
+    min-height: calc(100dvh - 65px) !important;
+    padding-bottom: 76px !important;
+  }
+  body.paged-mode main > section.active-page > nav.page-navigation {
+    inset-inline: 23px !important;
+    min-height: 54px !important;
+    padding: 9px 0 max(9px, env(safe-area-inset-bottom)) !important;
+  }
+  /* Foto utama tetap di kanan teks pada layar kecil dengan ukuran yang disesuaikan. */
+  body.paged-mode #home.active-page.hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.15fr) minmax(105px, .75fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding-top: 32px !important;
+    padding-bottom: 82px !important;
+  }
+  body.paged-mode #home .hero-copy { min-width: 0; }
+  body.paged-mode #home .hero h1 {
+    font-size: clamp(22px, 5.5vw, 36px) !important;
+    line-height: 1.16 !important;
+    letter-spacing: -.7px !important;
+    overflow-wrap: anywhere;
+  }
+  body.paged-mode #home .hero-description { font-size: 11px !important; line-height: 1.65 !important; }
+  body.paged-mode #home .eyebrow { font-size: 7px !important; letter-spacing: 1px !important; }
+  body.paged-mode #home .primary-button { padding: 10px 9px !important; font-size: 9px !important; }
+  body.paged-mode #home .primary-button span { margin-left: 4px !important; }
+  body.paged-mode #home .hero-note { font-size: 7px !important; margin-top: 16px !important; gap: 5px !important; }
+  body.paged-mode #home .hero-art { min-width: 0; width: 100%; height: 245px !important; margin: 0 !important; }
+  body.paged-mode #home .main-frame { width: 82% !important; height: 170px !important; padding: 0 !important; border: 0 !important; }
+  body.paged-mode #home .sun-disc { width: 100% !important; right: 0 !important; top: 15% !important; }
+  body.paged-mode #home .floating-card { display: none !important; }
+  body.paged-mode #home .sparkle-two, body.paged-mode #home .sparkle-three { display: none !important; }
+}
+@media (max-width: 390px) {
+  body.paged-mode main > section.active-page > nav.page-navigation { inset-inline: 16px !important; }
+  body.paged-mode #home.active-page.hero { grid-template-columns: minmax(0, 1.1fr) minmax(92px, .7fr) !important; gap: 8px !important; }
+  body.paged-mode #home .hero-art { height: 205px !important; }
+  body.paged-mode #home .main-frame { height: 145px !important; }
+}
+
+
+/* FIX TERAKHIR: navigasi berada di viewport bawah untuk SETIAP halaman, bukan di dalam section yang beranimasi. */
+body.paged-mode .page-navigation {
+  position: fixed !important;
+  left: clamp(22px, 9vw, 130px) !important;
+  right: clamp(22px, 9vw, 130px) !important;
+  bottom: 0 !important;
+  top: auto !important;
+  width: auto !important;
+  min-height: 62px !important;
+  margin: 0 !important;
+  padding: 10px 0 max(10px, env(safe-area-inset-bottom)) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  border-top: 1px solid var(--line) !important;
+  background: rgba(255,249,247,.97) !important;
+  backdrop-filter: blur(12px) !important;
+  z-index: 90 !important;
+  box-sizing: border-box !important;
+}
+body.paged-mode .page-navigation[hidden] { display: none !important; }
+body.paged-mode main > section.active-page:not(#videos) {
+  padding-bottom: 92px !important;
+  min-height: calc(100dvh - 76px) !important;
+  margin-bottom: 0 !important;
+}
+body.paged-mode #home.active-page.hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr) !important;
+  grid-template-rows: 1fr !important;
+  align-items: center !important;
+}
+body.paged-mode #home.active-page .hero-copy { grid-column: 1 !important; grid-row: 1 !important; min-width: 0 !important; }
+body.paged-mode #home.active-page .hero-art { grid-column: 2 !important; grid-row: 1 !important; min-width: 0 !important; width: 100% !important; margin: 0 !important; }
+body.paged-mode #home.active-page .main-frame {
+  aspect-ratio: 1 / 1 !important;
+  width: min(78%, 340px) !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+body.paged-mode #home.active-page .main-frame img {
+  width: 100% !important; height: 100% !important;
+  aspect-ratio: 1 / 1 !important; object-fit: cover !important;
+  border-radius: 50% !important;
+}
+@media (max-width: 760px) {
+  body.paged-mode .page-navigation {
+    left: 16px !important; right: 16px !important;
+    min-height: 60px !important; padding: 8px 0 max(8px, env(safe-area-inset-bottom)) !important;
+    gap: 8px !important;
+  }
+  body.paged-mode main > section.active-page:not(#videos) { padding-bottom: 82px !important; }
+  body.paged-mode #home.active-page.hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.15fr) minmax(100px, .78fr) !important;
+    grid-template-rows: 1fr !important;
+    gap: 10px !important;
+    min-height: calc(100dvh - 65px) !important;
+    padding-top: 28px !important; padding-bottom: 82px !important;
+  }
+  body.paged-mode #home.active-page .hero-copy { grid-column: 1 !important; grid-row: 1 !important; }
+  body.paged-mode #home.active-page .hero-art {
+    grid-column: 2 !important; grid-row: 1 !important;
+    height: auto !important; min-height: 0 !important; align-self: center !important;
+  }
+  body.paged-mode #home.active-page .main-frame { width: 100% !important; max-width: 220px !important; height: auto !important; aspect-ratio: 1 / 1 !important; }
+  body.paged-mode #home.active-page .sun-disc { width: 100% !important; right: 0 !important; }
+  body.paged-mode #home.active-page .floating-card { display: none !important; }
+}
+@media (max-width: 390px) {
+  body.paged-mode #home.active-page.hero { grid-template-columns: minmax(0, 1.08fr) minmax(86px, .72fr) !important; gap: 7px !important; }
+  body.paged-mode #home.active-page .hero h1 { font-size: clamp(20px, 6vw, 27px) !important; }
+  body.paged-mode #home.active-page .hero-description { font-size: 10px !important; }
+}
+
+
+/* Surat responsif: mulai dari atas, tanpa tombol X. Ketuk layar untuk menutup. */
+.letter-modal {
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(10px, 3vh, 28px) clamp(10px, 3vw, 24px);
+  -webkit-overflow-scrolling: touch;
+}
+.letter-full {
+  width: min(100%, 560px);
+  max-height: calc(100dvh - 2 * clamp(10px, 3vh, 28px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+.letter-reading { overflow: hidden; }
+.modal-close { display: none !important; }
+.book-controls { justify-content: center; }
+@media (max-width: 600px) {
+  .letter-modal { padding: 8px; }
+  .letter-full {
+    width: 100%;
+    max-height: calc(100dvh - 16px);
+    padding: 24px 20px;
+  }
+  .letter-full h3 { font-size: clamp(24px, 7vw, 30px); }
+  .letter-body { font-size: 13px; line-height: 1.85; overflow-wrap: anywhere; }
+}
+
+
+/* LAYAR PEMBUKA KEJUTAN: gosok layar dua kali */
+.surprise-intro{position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;}
+.surprise-intro.is-opening{animation:surpriseFade .8s ease forwards;pointer-events:none}
+.scratch-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
+.scratch-prompt{position:relative;z-index:2;pointer-events:none;text-align:center;color:#fff;padding:24px;width:min(100%,520px);font-family:var(--sans);}
+.scratch-heart{font-family:var(--serif);font-size:clamp(34px,7vw,54px);color:#e7b4c2;display:block;margin-bottom:18px;animation:scratchPulse 1.8s ease-in-out infinite}
+.scratch-prompt p{font-family:var(--serif);font-size:clamp(20px,4.8vw,30px);font-style:italic;line-height:1.35;margin:0 0 12px;color:#fff}
+.scratch-prompt small{display:block;font-size:clamp(10px,2.5vw,12px);letter-spacing:.5px;line-height:1.7;color:#bdb5b8}
+.scratch-progress{display:flex;justify-content:center;gap:10px;margin-top:25px}
+.scratch-progress span{width:8px;height:8px;border:1px solid #dba4b5;border-radius:50%;transition:background .2s,transform .2s}
+.scratch-progress span.done{background:#e7b4c2;transform:scale(1.25)}
+@keyframes scratchPulse{50%{transform:scale(1.08);opacity:.75}}
+@keyframes surpriseFade{to{opacity:0;visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.scratch-heart{animation:none}.surprise-intro.is-opening{animation-duration:.01ms}}
+
+
+/* Aksi Like, Comment, dan Share pada video hanya pajangan. */
+#videos .short-actions button { pointer-events: none; cursor: default; }

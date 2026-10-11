@@ -4,8 +4,8 @@
    Musik/pesan suara: taruh file MP3 di assets/music/.
    ========================================================= */
 const CONFIG = {
-  brand: "untuk Nayku,",
-  recipientName: "Nayku,",
+  brand: "For naela",
+  recipientName: "Nayku",
   heroMessage: "Sepuluh bulan bersamamu mengajarkanku banyak hal tentang bahagia, sabar, dan mencintai. Apa pun yang terjadi sekarang, aku tidak menyesal pernah memilihmu.",
   heroPhoto: "assets/photos/foto-utama.jpg",
   letterTitle: "Untuk Nayku.",
@@ -48,11 +48,10 @@ $("letterPreview").textContent = CONFIG.letterPreview;
 $("letterBody").textContent = CONFIG.letterBody.replace(/\\n/g, "\n");
 $("letterSignoff").textContent = CONFIG.letterSignoff;
 $("closingMessage").textContent = CONFIG.closingMessage;
-$("year").textContent = new Date().getFullYear();
 
 const bgMusic = new Audio(CONFIG.backgroundMusic);
 bgMusic.loop = true;
-bgMusic.volume = 0.35;
+bgMusic.volume = 1.0;
 let musicPlaying = false;
 let backgroundWasPlaying = true;
 function syncMusicButton(playing) {
@@ -91,17 +90,75 @@ const modal = $("letterModal");
 envelope.addEventListener("click", () => {
   envelope.classList.add("open");
   $("envelopeHint").textContent = "SURAT TERBUKA ♡";
-  window.setTimeout(() => { modal.classList.add("show"); modal.setAttribute("aria-hidden", "false"); }, 450);
+  window.setTimeout(() => {
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("letter-reading");
+    // Surat selalu dibuka dari posisi paling atas.
+    window.scrollTo({ top: 0, behavior: "auto" });
+    modal.scrollTop = 0;
+    const letterCard = modal.querySelector(".letter-full");
+    if (letterCard) letterCard.scrollTop = 0;
+  }, 450);
 });
 function closeLetter() {
-  modal.classList.remove("show"); modal.setAttribute("aria-hidden", "true");
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("letter-reading");
+  // Reset posisi scroll surat supaya saat dibuka lagi dimulai dari awal.
+  modal.scrollTop = 0;
+  const letterCard = modal.querySelector(".letter-full");
+  if (letterCard) letterCard.scrollTop = 0;
+  // Kembalikan amplop ke keadaan semula agar surat dapat dibuka lagi.
+  envelope.classList.remove("open");
+  $("envelopeHint").textContent = "KETUK UNTUK MEMBUKA";
+  envelope.focus({ preventScroll: true });
 }
-document.querySelectorAll("[data-close-letter]").forEach(el => el.addEventListener("click", closeLetter));
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeLetter(); });
+// Ketuk di mana saja pada layar untuk kembali dari surat.
+// Gesture geser untuk scroll tidak menutup surat; deteksi pointer dipasang pada
+// document agar ketukan di area kosong di luar kartu surat juga berfungsi.
+let letterPointerStart = null;
+document.addEventListener("pointerdown", event => {
+  if (!modal.classList.contains("show")) return;
+  letterPointerStart = {
+    x: event.clientX,
+    y: event.clientY,
+    scrollTop: modal.scrollTop,
+    cardScrollTop: (modal.querySelector(".letter-full") || modal).scrollTop,
+    pointerId: event.pointerId
+  };
+}, { passive: true, capture: true });
+document.addEventListener("pointerup", event => {
+  if (!modal.classList.contains("show") || !letterPointerStart) return;
+  const start = letterPointerStart;
+  letterPointerStart = null;
+  if (start.pointerId !== event.pointerId) return;
+  const moved = Math.hypot(event.clientX - start.x, event.clientY - start.y);
+  const card = modal.querySelector(".letter-full");
+  const scrolled = Math.abs(modal.scrollTop - start.scrollTop) > 2 ||
+    Math.abs((card || modal).scrollTop - start.cardScrollTop) > 2;
+  if (moved <= 10 && !scrolled) closeLetter();
+}, { passive: true, capture: true });
+document.addEventListener("pointercancel", () => { letterPointerStart = null; }, { passive: true, capture: true });
+document.addEventListener("keydown", e => { if ((e.key === "Escape" || e.key === "Backspace") && modal.classList.contains("show")) { e.preventDefault(); closeLetter(); } });
 $("startButton").addEventListener("click", () => window.showGiftPage?.(1));
 $("replayButton").addEventListener("click", () => window.showGiftPage?.(0));
 $("closingNextButton").addEventListener("click", () => window.showGiftPage?.(6));
 $("voiceAudio").src = CONFIG.voiceMessage;
+
+  
+// Pesan-suara mengambil alih audio selama diputar.
+const voiceAudio = $("voiceAudio");
+voiceAudio.volume = 0.8;
+voiceAudio.addEventListener("play", () => {
+  backgroundWasPlaying = backgroundWasPlaying || musicPlaying || !bgMusic.paused;
+  pauseBackgroundMusic();
+});
+voiceAudio.addEventListener("ended", () => {
+  if (!document.body.classList.contains("video-page-active") && backgroundWasPlaying) {
+    playBackgroundMusic();
+  }
+});
 
 
 
@@ -136,7 +193,9 @@ $("voiceAudio").src = CONFIG.voiceMessage;
     next.addEventListener("click", () => showPage(index === pages.length - 1 ? 0 : index + 1));
     if (index === 5) nav.append(back, counter);
     else nav.append(back, counter, next);
-    page.appendChild(nav);
+    nav.dataset.pageId = page.id;
+    nav.hidden = index !== 0;
+    document.body.appendChild(nav);
   });
 
   window.showGiftPage = showPage;
@@ -148,6 +207,17 @@ $("voiceAudio").src = CONFIG.voiceMessage;
     });
     window.scrollTo({top: 0, behavior: "smooth"});
     const active = pages[currentPage];
+    document.querySelectorAll(".page-navigation").forEach(nav => {
+      nav.hidden = nav.dataset.pageId !== active.id;
+    });
+
+    // Hentikan pesan-suara setiap kali pengguna berpindah halaman.
+    const voiceAudio = $("voiceAudio");
+    if (voiceAudio && !voiceAudio.paused) {
+      voiceAudio.pause();
+      voiceAudio.currentTime = 0;
+    }
+
     const heading = active.querySelector("h1,h2");
     if (heading) heading.setAttribute("tabindex","-1");
     if (active.id === "videos") {
@@ -170,13 +240,12 @@ $("voiceAudio").src = CONFIG.voiceMessage;
   }
 })();
 
-
 /* BUKU KENANGAN: sampul terbuka, halaman dapat dibalik. */
 (function setupMemoryBook(){
   const memories = [
-    {left:"assets/photos/kenangan-1.jpg", right:"assets/photos/kenangan-2.jpg", leftText:"Hari yang ingin kuingat", rightText:"Sesederhana itu, seberarti itu"},
-    {left:"assets/photos/kenangan-3.jpg", right:"assets/photos/kenangan-4.jpg", leftText:"Tawa yang tersimpan", rightText:"Momen kecil favoritku"},
-    {left:"assets/photos/kenangan-5.jpg", right:"assets/photos/kenangan-6.jpg", leftText:"Cerita yang terus tumbuh", rightText:"Semoga ada banyak halaman lagi"}
+    {left:"assets/photos/kenangan-1.jpg", right:"assets/photos/kenangan-2.jpg", leftText:"senyummu yang begitu manis", rightText:"Pipimu yang begitu lucu"},
+    {left:"assets/photos/kenangan-3.jpg", right:"assets/photos/kenangan-4.jpg", leftText:"matamu yang begitu indah", rightText:"parasmu membuatku terpana"},
+    {left:"assets/photos/kenangan-5.jpg", right:"assets/photos/kenangan-6.jpg", leftText:"tatapanmu membuatku tersenyum", rightText:"kamu indah dari segalanya"}
   ];
   let spread = -1;
   const book = $("memoryBook");
@@ -230,6 +299,7 @@ $("voiceAudio").src = CONFIG.voiceMessage;
   });
 })();
 
+
 /* VIDEO DIARY: semua video mute secara default, audio MP3 terpisah dan off. */
 (function setupVideoDiary(){
   const feed = $("shortsFeed");
@@ -253,23 +323,11 @@ $("voiceAudio").src = CONFIG.voiceMessage;
     video.addEventListener("loadeddata", () => card.classList.add("video-loaded"));
     video.addEventListener("canplay", () => card.classList.add("video-loaded"));
     video.addEventListener("error", () => card.classList.remove("video-loaded"));
-    card.querySelector(".like-button").addEventListener("click", (e) => {
-      const btn = e.currentTarget;
-      const liked = btn.classList.toggle("liked");
-      btn.querySelector("span").textContent = liked ? "♥" : "♡";
-      btn.querySelector(".like-count").textContent = liked ? "Liked" : "Like";
-    });
-    card.querySelector(".comment-button").addEventListener("click", () => {
-      const comment = window.prompt("Tulis komentar untuk video ini:");
-      if (comment && comment.trim()) alert("Komentar kamu: “" + comment.trim() + "”");
-    });
-    card.querySelector(".share-button").addEventListener("click", async () => {
-      const shareData = {title:"Video kenangan", text:card.querySelector(".short-caption p").textContent, url:window.location.href + "#videos"};
-      try {
-        if (navigator.share) await navigator.share(shareData);
-        else if (navigator.clipboard) { await navigator.clipboard.writeText(shareData.url); alert("Link halaman video disalin."); }
-        else alert("Salin link halaman ini untuk membagikannya.");
-      } catch {}
+    // Tombol Like, Comment, dan Share hanya dekorasi/pajangan.
+    // Tidak diberi event klik agar tidak menjalankan fitur apa pun.
+    card.querySelectorAll(".like-button, .comment-button, .share-button").forEach(button => {
+      button.setAttribute("aria-disabled", "true");
+      button.setAttribute("tabindex", "-1");
     });
   });
   if ("IntersectionObserver" in window) {
@@ -307,3 +365,67 @@ document.querySelectorAll("img, video").forEach(el => {
   el.setAttribute("draggable", "false");
   el.addEventListener("contextmenu", e => e.preventDefault());
 });
+
+
+/* PEMBUKA SURPRISE: satu gosokan = satu gerakan usap; perlu dua gerakan */
+(function setupScratchSurprise(){
+  const intro = document.getElementById('surpriseIntro');
+  const canvas = document.getElementById('scratchCanvas');
+  if (!intro || !canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) { intro.remove(); return; }
+  let strokes = 0;
+  let drawing = false;
+  let moved = 0;
+  let last = null;
+  let completed = false;
+  const dots = [document.getElementById('scratchDot1'), document.getElementById('scratchDot2')];
+  function resizeCanvas(){
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(window.innerWidth * ratio);
+    canvas.height = Math.round(window.innerHeight * ratio);
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+  }
+  function point(e){ return {x:e.clientX, y:e.clientY}; }
+  function scratch(from, to){
+    ctx.save(); ctx.globalCompositeOperation = 'destination-out';
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = Math.max(48, Math.min(window.innerWidth, window.innerHeight) * .13);
+    ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke(); ctx.restore();
+  }
+  function finishStroke(){
+    if (!drawing) return;
+    drawing = false; last = null;
+    if (moved >= Math.max(45, Math.min(window.innerWidth, window.innerHeight) * .12)) {
+      strokes = Math.min(2, strokes + 1);
+      if (dots[strokes - 1]) dots[strokes - 1].classList.add('done');
+      if (strokes >= 2) openWebsite();
+    }
+    moved = 0;
+  }
+  function openWebsite(){
+    if (completed) return;
+    completed = true;
+    intro.classList.add('is-opening');
+    window.setTimeout(() => { intro.remove(); document.body.classList.add('surprise-opened'); }, 820);
+  }
+  canvas.addEventListener('pointerdown', e => {
+    if (completed) return;
+    e.preventDefault(); drawing = true; moved = 0; last = point(e);
+    try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (!drawing || !last || completed) return;
+    e.preventDefault(); const next = point(e);
+    moved += Math.hypot(next.x - last.x, next.y - last.y);
+    scratch(last, next); last = next;
+  });
+  canvas.addEventListener('pointerup', finishStroke);
+  canvas.addEventListener('pointercancel', finishStroke);
+  window.addEventListener('resize', () => { if (!completed) resizeCanvas(); });
+  resizeCanvas();
+})();
