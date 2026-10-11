@@ -51,7 +51,7 @@ $("closingMessage").textContent = CONFIG.closingMessage;
 
 const bgMusic = new Audio(CONFIG.backgroundMusic);
 bgMusic.loop = true;
-bgMusic.volume = 1.0;
+bgMusic.volume = 1.2;
 let musicPlaying = false;
 let backgroundWasPlaying = true;
 function syncMusicButton(playing) {
@@ -149,7 +149,7 @@ $("voiceAudio").src = CONFIG.voiceMessage;
   
 // Pesan-suara mengambil alih audio selama diputar.
 const voiceAudio = $("voiceAudio");
-voiceAudio.volume = 0.8;
+voiceAudio.volume = 0.7;
 voiceAudio.addEventListener("play", () => {
   backgroundWasPlaying = backgroundWasPlaying || musicPlaying || !bgMusic.paused;
   pauseBackgroundMusic();
@@ -306,7 +306,7 @@ voiceAudio.addEventListener("ended", () => {
   const cards = [...document.querySelectorAll(".short-video")];
   const audio = $("videoMusic");
   audio.src = CONFIG.videoMusic;
-  audio.volume = 0.55;
+  audio.volume = 0.6;
   let audioStarted = false;
   async function startSeparateAudio() {
     try { await audio.play(); audioStarted = true; } catch { /* Browser may require a user gesture. */ }
