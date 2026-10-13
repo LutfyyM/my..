@@ -129,10 +129,10 @@ function closeLetter() {
   $("envelopeHint").textContent = "KETUK UNTUK MEMBUKA";
   envelope.focus({ preventScroll: true });
 }
-// Surat hanya ditutup jika pengguna mengetuk area gelap di luar kertas.
-// Ketukan/geseran di dalam surat tetap bisa dipakai untuk membaca dan scroll.
+// Ketuk di mana saja pada tampilan surat untuk kembali. Geseran untuk membaca
+// tidak menutup surat karena event click tidak dipicu setelah gerakan scroll.
 modal.addEventListener("click", event => {
-  if (event.target.matches("[data-close-letter]")) closeLetter();
+  if (modal.classList.contains("show")) closeLetter();
 });
 document.addEventListener("keydown", e => { if ((e.key === "Escape" || e.key === "Backspace") && modal.classList.contains("show")) { e.preventDefault(); closeLetter(); } });
 $("startButton").addEventListener("click", () => window.showGiftPage?.(1));
@@ -232,6 +232,29 @@ voiceAudio.addEventListener("ended", () => {
       if (backgroundWasPlaying) playBackgroundMusic();
     }
   }
+
+
+  // Geser kiri/kanan pada layar sentuh untuk berpindah halaman.
+  // Abaikan geseran di video, kontrol media, buku foto, dan saat surat terbuka.
+  let touchStartX = 0, touchStartY = 0, touchStartAt = 0;
+  document.addEventListener("touchstart", event => {
+    if (!event.touches || event.touches.length !== 1) return;
+    if (document.body.classList.contains("letter-reading")) return;
+    if (event.target.closest("button, a, input, textarea, select, audio, video, .memory-book, #shortsFeed")) return;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+    touchStartAt = Date.now();
+  }, { passive: true });
+  document.addEventListener("touchend", event => {
+    if (!touchStartAt || !event.changedTouches || document.body.classList.contains("letter-reading")) return;
+    const dx = event.changedTouches[0].clientX - touchStartX;
+    const dy = event.changedTouches[0].clientY - touchStartY;
+    const elapsed = Date.now() - touchStartAt;
+    touchStartAt = 0;
+    if (Math.abs(dx) < 65 || Math.abs(dx) < Math.abs(dy) * 1.25 || elapsed > 900) return;
+    if (dx < 0) showPage(currentPage === pages.length - 1 ? 0 : currentPage + 1);
+    else if (currentPage > 0) showPage(currentPage - 1);
+  }, { passive: true });
 })();
 
 /* BUKU KENANGAN: sampul terbuka, halaman dapat dibalik. */

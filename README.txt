@@ -1,12 +1,18 @@
-WEBSITE NAY — MOBILE RESPONSIVE FIX
+PAKET PERBAIKAN RESPONSIVE MOBILE — FOR NAELA
 
-Isi paket: index.html, style.css, script.js.
+File yang disertakan:
+- index.html
+- style.css
+- script.js
 
-Pemasangan:
-1. Backup folder website lama.
-2. Ganti index.html, style.css, dan script.js dengan file dari paket ini.
-3. Pertahankan folder assets/photos, assets/music, dan assets/videos dari website lama.
-4. Pastikan ketiga file berada di folder yang sama dan nama file persis seperti di atas.
-5. Buka ulang website; di HP tutup tab lalu buka lagi atau bersihkan cache browser.
+Perbaikan:
+1. Tombol navigasi < dan > diposisikan di tengah bawah layar HP, dengan tombol kiri dan kanan simetris serta nomor halaman di tengah.
+2. Geser layar ke kiri untuk halaman berikutnya dan ke kanan untuk halaman sebelumnya. Gerakan vertikal tetap untuk scroll. Geser tidak aktif ketika surat terbuka atau ketika berinteraksi dengan kontrol media, tombol, dan buku foto.
+3. Foto utama di HP menggunakan komposisi foto bulat seperti desktop dan diletakkan di bawah teks agar tidak menekan judul menjadi kolom sempit.
+4. Saat surat terbuka, ketuk di mana saja pada tampilan surat untuk kembali. Tidak memerlukan tombol X. Geser vertikal masih dapat digunakan untuk membaca surat panjang.
 
-Perbaikan fokus: layout halaman dan header dibuat memenuhi lebar viewport HP, konten dibatasi agar tidak meluber, grid disusun satu kolom pada layar kecil, dan navigasi dipusatkan di bawah layar.
+CARA MEMASANG:
+1. Backup file website lama.
+2. Ganti index.html, style.css, dan script.js dengan file dari ZIP ini.
+3. Pertahankan folder assets website lama (foto, musik, dan video tidak disertakan dalam ZIP).
+4. Buka ulang situs dan refresh cache browser.
