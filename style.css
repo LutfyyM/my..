@@ -1124,3 +1124,50 @@ body.paged-mode .page-navigation .page-next {
   body.paged-mode #memories .book-spread { min-height: 250px !important; }
   body.paged-mode #memories .book-photo-wrap { height: 155px !important; }
 }
+
+
+/* Penyempurnaan: tombol navigasi hanya berupa panah dan foto utama di awal halaman pada HP. */
+body.paged-mode .page-navigation .page-back,
+body.paged-mode .page-navigation .page-next {
+  flex: 0 0 44px !important;
+  width: 44px !important;
+  max-width: 44px !important;
+  min-width: 44px !important;
+  padding: 8px 0 !important;
+  text-align: center !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+body.paged-mode .page-navigation .page-counter { margin-inline: auto !important; }
+@media (max-width: 760px) {
+  body.paged-mode #home.active-page.hero {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    padding-top: 24px !important;
+  }
+  body.paged-mode #home.active-page .hero-art {
+    order: -1 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 auto 8px !important;
+    aspect-ratio: 1.25 / 1;
+  }
+  body.paged-mode #home.active-page .main-frame {
+    width: min(58vw, 210px) !important;
+    max-width: 210px !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+  body.paged-mode #home.active-page .hero-copy { order: 1 !important; width: 100% !important; }
+  body.paged-mode #home.active-page .sun-disc { width: min(58vw, 210px) !important; }
+  body.paged-mode .page-navigation .page-back,
+  body.paged-mode .page-navigation .page-next {
+    flex: 0 0 38px !important; width: 38px !important; max-width: 38px !important;
+    min-width: 38px !important; min-height: 38px !important; padding: 8px 0 !important;
+    font-size: 18px !important;
+  }
+}

@@ -22,3 +22,5 @@ Catatan:
 Video nay.mp4 tidak disertakan karena belum ada file video yang diunggah. Tambahkan video milikmu sendiri pada path tersebut.
 
 Update terbaru: halaman video kenangan khusus dan halaman “Nay, aku rindu kamu dan ke-random-anmu” telah dihapus. Halaman video pendek asli di bagian penutup tetap dipertahankan.
+
+Update: tombol navigasi halaman dan buku kenangan sekarang hanya menampilkan < dan >. Pada HP, foto utama ditempatkan di bagian awal halaman pembuka.
