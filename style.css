@@ -1086,74 +1086,111 @@ body.paged-mode main > section.active-page#videos { overflow:hidden; }
 }
 
 
-/* Final mobile polish: keep the hero photo framing consistent with desktop. */
+/* === MOBILE REPAIR V2: hero image proportions and page-width cleanup === */
 @media (max-width: 760px) {
-  body { overflow-x: hidden; }
-  body.paged-mode main > section.active-page:not(#videos) {
-    box-sizing: border-box;
-    overflow-x: clip;
-  }
+  html, body { width:100%; max-width:100%; overflow-x:hidden !important; }
+  body.paged-mode main { width:100%; max-width:100%; overflow-x:clip; }
+  body.paged-mode main > section.active-page { width:100%; max-width:100%; min-width:0; }
   body.paged-mode #home.active-page.hero {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 14px !important;
-    padding-top: clamp(26px, 5vh, 42px) !important;
-    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:12px !important;
+    padding:28px 18px calc(100px + env(safe-area-inset-bottom)) !important;
+    margin:0 auto !important;
+    overflow:clip !important;
   }
-  #home .hero-copy { min-width: 0; }
-  #home .hero h1 {
-    font-size: clamp(31px, 8.2vw, 46px) !important;
-    line-height: 1.14 !important;
-    letter-spacing: -0.7px !important;
-    margin: 15px 0 17px !important;
-    overflow-wrap: break-word;
+  body.paged-mode #home .hero-copy { width:100%; max-width:100%; }
+  body.paged-mode #home .hero h1 {
+    font-size:clamp(30px, 8.2vw, 44px) !important;
+    line-height:1.14 !important;
+    letter-spacing:-.65px !important;
+    overflow-wrap:break-word;
+    word-break:normal;
   }
-  #home .hero-description { font-size: 13px; line-height: 1.8; }
-  #home .primary-button { max-width: 100%; padding: 13px 16px; }
-  #home .hero-art {
-    position: relative;
-    width: 100%;
-    max-width: 430px;
-    height: clamp(300px, 88vw, 360px) !important;
-    margin: 12px auto 0 !important;
-    flex: 0 0 auto;
-    overflow: visible;
+  body.paged-mode #home .hero-art {
+    position:relative !important;
+    display:flex !important;
+    width:100% !important;
+    max-width:420px !important;
+    height:clamp(300px, 88vw, 360px) !important;
+    margin:18px auto 0 !important;
+    overflow:visible !important;
+    flex:0 0 auto;
   }
-  #home .sun-disc {
-    width: min(68vw, 270px) !important;
-    right: 7% !important;
-    top: 3% !important;
+  /* Match the desktop photo treatment: a centered, circular photo with a white frame. */
+  body.paged-mode #home .main-frame {
+    position:relative !important;
+    display:block !important;
+    width:min(68vw, 290px) !important;
+    height:auto !important;
+    aspect-ratio:1 / 1 !important;
+    flex:0 0 auto !important;
+    padding:0 !important;
+    border:5px solid #fff !important;
+    border-radius:50% !important;
+    overflow:hidden !important;
+    transform:none !important;
+    background:#f7e5e5 !important;
+    box-shadow:0 18px 42px rgba(128,82,90,.16) !important;
   }
-  #home .main-frame {
-    width: min(68%, 255px) !important;
-    height: clamp(255px, 76vw, 320px) !important;
-    aspect-ratio: auto !important;
-    padding: 10px 10px 32px !important;
-    border: 1px solid #fff !important;
-    transform: rotate(3deg) !important;
-    flex: 0 0 auto;
+  body.paged-mode #home .main-frame img {
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center !important;
+    border-radius:50% !important;
   }
-  #home .main-frame img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
+  body.paged-mode #home .main-frame.photo-placeholder img { display:none !important; }
+  body.paged-mode #home .main-frame .photo-placeholder-text {
+    inset:0 !important;
+    border-radius:50% !important;
+    padding:18px !important;
+    font-size:clamp(14px, 4vw, 20px) !important;
   }
-  #home .photo-placeholder-text { inset: 10px 10px 32px !important; }
-  #home .floating-card { max-width: 48%; }
-  #home .card-top { left: 0 !important; top: 5% !important; }
-  #home .card-bottom { right: 0 !important; bottom: 5% !important; }
-  #home .hero-note { max-width: 100%; }
-  .page-navigation { max-width: calc(100vw - 24px) !important; }
+  body.paged-mode #home .sun-disc {
+    width:min(72vw, 290px) !important;
+    aspect-ratio:1 / 1 !important;
+    right:50% !important;
+    top:3% !important;
+    transform:translateX(50%) !important;
+  }
+  body.paged-mode #home .floating-card {
+    max-width:48% !important;
+    padding:9px 11px !important;
+    gap:7px !important;
+    font-size:clamp(9px, 2.7vw, 11px) !important;
+    line-height:1.35 !important;
+    overflow-wrap:anywhere;
+  }
+  body.paged-mode #home .card-top { left:0 !important; top:8% !important; }
+  body.paged-mode #home .card-bottom { right:0 !important; bottom:7% !important; }
+  body.paged-mode #home .sparkle-one { right:8% !important; top:4% !important; }
+  body.paged-mode #home .sparkle-two,
+  body.paged-mode #home .sparkle-three { display:none !important; }
+  body.paged-mode .page-navigation {
+    left:50% !important;
+    width:min(360px, calc(100vw - 24px)) !important;
+    max-width:calc(100vw - 24px) !important;
+  }
+  body.paged-mode main > section.active-page:not(#videos) {
+    box-sizing:border-box !important;
+    overflow-x:clip !important;
+  }
+  body.paged-mode #letter.active-page .letter-section,
+  body.paged-mode #voice.active-page .voice-card,
+  body.paged-mode #memories.active-page .memory-book,
+  body.paged-mode #closing.active-page .closing-actions {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+  }
 }
-@media (max-width: 390px) {
-  #home .hero-art { height: 300px !important; }
-  #home .main-frame {
-    width: min(68%, 220px) !important;
-    height: 255px !important;
-  }
-  #home .floating-card { padding: 7px 8px !important; }
-  #home .floating-card span { font-size: 17px !important; }
+@media (max-width:390px) {
+  body.paged-mode #home.active-page.hero { padding-inline:15px !important; }
+  body.paged-mode #home .hero-art { height:285px !important; }
+  body.paged-mode #home .main-frame { width:min(68vw, 250px) !important; }
+  body.paged-mode #home .floating-card { padding:7px 8px !important; }
+  body.paged-mode #home .floating-card span { font-size:17px !important; }
 }
