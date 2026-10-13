@@ -911,3 +911,143 @@ body.paged-mode #home.active-page .main-frame img {
 #videos .short-actions button { pointer-events: none; cursor: default; }
 
 
+
+/* RESPONSIVE MOBILE REBUILD — override aturan lama yang membuat konten terlalu sempit */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { width: 100%; max-width: 100%; overflow-x: clip; }
+img, video, canvas, svg, audio { max-width: 100%; }
+button { max-width: 100%; touch-action: manipulation; }
+body.paged-mode main > section.active-page {
+  width: 100%; max-width: 100%; min-width: 0;
+  overflow-wrap: anywhere;
+}
+body.paged-mode main > section.active-page > nav.page-navigation {
+  position: fixed !important;
+  left: max(14px, env(safe-area-inset-left)) !important;
+  right: max(14px, env(safe-area-inset-right)) !important;
+  bottom: 0 !important; top: auto !important;
+  min-height: 58px !important;
+  padding: 9px 0 max(9px, env(safe-area-inset-bottom)) !important;
+  gap: 8px !important;
+  background: rgba(255,249,247,.97) !important;
+  backdrop-filter: blur(12px);
+}
+body.paged-mode .page-navigation button {
+  min-width: 0; max-width: 48%; white-space: normal;
+  font-size: 12px; line-height: 1.3; padding: 9px 10px;
+}
+body.paged-mode .page-navigation .page-counter { flex: 0 0 auto; font-size: 10px; }
+body.paged-mode main > section.active-page:not(#videos) {
+  min-height: calc(100svh - 64px) !important;
+  height: auto !important;
+  padding-bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+}
+@media (max-width: 760px) {
+  .topbar {
+    height: 62px; padding: 0 16px; gap: 10px;
+  }
+  .brand { min-width: 0; font-size: 15px; gap: 6px; }
+  .brand-heart { font-size: 22px; }
+  .music-toggle { padding: 8px 11px; gap: 6px; font-size: 11px; white-space: nowrap; }
+  .section { padding-left: 20px !important; padding-right: 20px !important; }
+  body.paged-mode main > section.active-page:not(#videos) {
+    min-height: calc(100svh - 62px) !important;
+    padding-top: 30px !important;
+    padding-bottom: calc(86px + env(safe-area-inset-bottom)) !important;
+  }
+  /* Beranda: susun vertikal supaya teks dan foto tidak saling menghimpit. */
+  body.paged-mode #home.active-page.hero {
+    display: flex !important; flex-direction: column !important;
+    align-items: stretch !important; justify-content: flex-start !important;
+    gap: 18px !important; min-height: calc(100svh - 62px) !important;
+    padding: 28px 20px calc(92px + env(safe-area-inset-bottom)) !important;
+  }
+  body.paged-mode #home .hero-copy { width: 100%; min-width: 0; }
+  body.paged-mode #home .hero h1 {
+    font-size: clamp(32px, 8.4vw, 46px) !important;
+    line-height: 1.12 !important; letter-spacing: -1px !important;
+    margin: 16px 0 !important; overflow-wrap: break-word;
+  }
+  body.paged-mode #home .hero-description { max-width: 100%; font-size: 13px !important; line-height: 1.75 !important; }
+  body.paged-mode #home .eyebrow { font-size: 9px !important; line-height: 1.6; letter-spacing: 1.2px !important; }
+  body.paged-mode #home .primary-button { min-height: 44px; padding: 12px 15px !important; font-size: 12px !important; }
+  body.paged-mode #home .hero-note { margin-top: 18px !important; font-size: 9px !important; line-height: 1.5; letter-spacing: .4px; }
+  body.paged-mode #home .hero-art { width: 100% !important; height: auto !important; min-height: 0 !important; aspect-ratio: 1.35 / 1; margin: 0 !important; }
+  body.paged-mode #home .main-frame {
+    width: min(66%, 250px) !important; max-width: 250px !important;
+    height: auto !important; aspect-ratio: 1 / 1 !important;
+    padding: 0 !important; border: 0 !important; transform: none !important;
+  }
+  body.paged-mode #home .main-frame img { width: 100% !important; height: 100% !important; }
+  body.paged-mode #home .sun-disc { width: min(75%, 280px) !important; right: 12% !important; top: 8% !important; }
+  body.paged-mode #home .floating-card { display: none !important; }
+  body.paged-mode #home .sparkle-two, body.paged-mode #home .sparkle-three { display: none !important; }
+
+  /* Semua halaman teks memakai lebar layar penuh yang aman. */
+  body.paged-mode #little-things .section-heading h2,
+  body.paged-mode #memories .section-heading h2,
+  body.paged-mode #letter .letter-side h2,
+  body.paged-mode #voice .voice-copy h2,
+  body.paged-mode #closing h2 {
+    font-size: clamp(30px, 7.5vw, 42px) !important;
+    line-height: 1.2 !important; overflow-wrap: break-word;
+  }
+  body.paged-mode .section-heading { max-width: 100%; }
+  body.paged-mode .section-heading p,
+  body.paged-mode .letter-side > p,
+  body.paged-mode .voice-copy > p,
+  body.paged-mode #closing > p { max-width: 100%; font-size: 13px; line-height: 1.8; }
+  body.paged-mode #little-things .reason-grid { grid-template-columns: minmax(0,1fr) !important; gap: 12px; margin-top: 25px; }
+  body.paged-mode #little-things .reason-card { min-height: 0; padding: 22px 20px; }
+  body.paged-mode #little-things .reason-card h3 { margin: 18px 0 10px; font-size: 22px; }
+  body.paged-mode #letter.active-page.letter-section { display: flex !important; flex-direction: column !important; align-items: stretch; gap: 12px !important; }
+  body.paged-mode #letter .letter-side { width: 100%; min-width: 0; }
+  body.paged-mode #letter .letter-caption { margin-top: 18px; line-height: 1.6; }
+  body.paged-mode #letter .envelope-wrap { width: 100%; min-height: 275px; padding: 8px 0; }
+  body.paged-mode #letter .envelope { width: min(100%, 310px); height: 195px; }
+  body.paged-mode #letter .letter-paper { height: 160px; padding: 18px; }
+  body.paged-mode #letter .envelope-shadow { width: min(80%, 270px); }
+
+  /* Buku foto tetap dapat dipakai tanpa memotong sisi halaman. */
+  body.paged-mode #memories .memory-book { width: 100%; max-width: 100%; }
+  body.paged-mode #memories .book-stage { width: 100%; min-height: 290px; }
+  body.paged-mode #memories .book-cover { width: min(100%, 340px); height: 290px; }
+  body.paged-mode #memories .book-spread { width: 100%; min-height: 290px; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  body.paged-mode #memories .book-page { min-width: 0; padding: 28px 9px 16px; }
+  body.paged-mode #memories .book-photo-wrap { width: 100%; min-width: 0; }
+  body.paged-mode #memories .book-page p { font-size: clamp(10px, 2.8vw, 12px); line-height: 1.4; overflow-wrap: anywhere; }
+  body.paged-mode #memories .book-controls { width: 100%; gap: 7px; flex-wrap: wrap; }
+  body.paged-mode #memories .book-controls button { max-width: 43%; font-size: 10px; padding: 9px 7px; }
+  body.paged-mode #memories .book-counter { font-size: 10px; }
+
+  /* Audio page: piringan di atas, pemutar audio selebar layar di bawah. */
+  body.paged-mode #voice .voice-card { grid-template-columns: minmax(0,1fr) !important; gap: 12px; padding: 22px 18px; width: 100%; }
+  body.paged-mode #voice .voice-visual { height: 190px; }
+  body.paged-mode #voice .record-outer { width: 165px; }
+  body.paged-mode #voice .record-inner { width: 66px; border-width: 6px; }
+  body.paged-mode #voice .sound-bars { bottom: 0; }
+  body.paged-mode #voice .voice-copy { min-width: 0; }
+  body.paged-mode #voice audio { display: block; width: 100%; max-width: 100%; }
+
+  body.paged-mode #closing .closing-actions { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+  body.paged-mode #closing .closing-actions button { width: 100%; margin-top: 10px; min-height: 44px; }
+  body.paged-mode #closing .closing-stars { font-size: 16px; }
+
+  body.paged-mode #videos .shorts-feed { height: 100svh; min-height: 100svh; }
+  body.paged-mode #videos .short-video { height: 100svh; min-height: 100svh; }
+}
+@media (max-width: 420px) {
+  .section { padding-left: 16px !important; padding-right: 16px !important; }
+  body.paged-mode main > section.active-page:not(#videos) { padding-left: 16px !important; padding-right: 16px !important; }
+  body.paged-mode #home.active-page.hero { padding-left: 16px !important; padding-right: 16px !important; }
+  body.paged-mode #home .hero h1 { font-size: clamp(29px, 8.2vw, 36px) !important; }
+  body.paged-mode .page-navigation button { font-size: 11px; padding: 8px 7px; }
+  body.paged-mode #memories .book-page-number { top: 10px; font-size: 8px; }
+}
+@media (max-width: 350px) {
+  .brand { font-size: 13px; }
+  .music-toggle { padding: 7px 8px; font-size: 10px; }
+  body.paged-mode #home .hero h1 { font-size: 28px !important; }
+  body.paged-mode #memories .book-spread { grid-template-columns: minmax(0,1fr); }
+  body.paged-mode #memories .right-page { display: none; }
+}
