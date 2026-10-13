@@ -1,4 +1,34 @@
 /* =========================================================
+   ZOOM LOCK — cegah pinch zoom & double-tap zoom di HP
+   ========================================================= */
+(function lockZoom(){
+  document.addEventListener("touchstart", (e) => {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+
+  let lastTouchEnd = 0;
+  document.addEventListener("touchend", (e) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) e.preventDefault();
+    lastTouchEnd = now;
+  }, { passive: false });
+
+  document.addEventListener("gesturestart", e => e.preventDefault());
+  document.addEventListener("gesturechange", e => e.preventDefault());
+  document.addEventListener("gestureend", e => e.preventDefault());
+
+  document.addEventListener("wheel", (e) => {
+    if (e.ctrlKey) e.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && ["+","-","=","0"].includes(e.key)) {
+      e.preventDefault();
+    }
+  });
+})();
+
+/* =========================================================
    EDIT KONTEN WEBSITE DI BAGIAN CONFIG DI BAWAH INI.
    Foto: taruh di assets/photos/ dengan nama sesuai config.
    Musik/pesan suara: taruh file MP3 di assets/music/.
@@ -50,7 +80,6 @@ $("letterBody").textContent = CONFIG.letterBody.replace(/\\n/g, "\n");
 $("letterSignoff").textContent = CONFIG.letterSignoff;
 $("closingMessage").textContent = CONFIG.closingMessage;
 
-// Video Nay tidak boleh mengeluarkan suara.
 const nayMemoryVideo = $("nayMemoryVideo");
 if (nayMemoryVideo) {
   nayMemoryVideo.muted = true;
@@ -120,7 +149,6 @@ envelope.addEventListener("click", () => {
   }, 450);
 });
 
-// Fungsi tutup surat dipakai bersama oleh tap / click / keyboard
 function closeLetterSafe(){
   if (!modal.classList.contains("show")) return;
   modal.classList.remove("show");
@@ -134,9 +162,6 @@ function closeLetterSafe(){
   if (hint) hint.textContent = "KETUK UNTUK MEMBUKA";
 }
 
-/* Tap di mana saja untuk menutup surat — tetap bisa discroll.
-   Logika: tap murni (cepat & tidak bergerak) → tutup.
-   Scroll (bergerak lebih dari 10px) → tidak menutup. */
 let letterTouchStartY = 0;
 let letterTouchStartTime = 0;
 let letterTouchMoved = false;
@@ -159,13 +184,11 @@ modal.addEventListener("touchend", (e) => {
   const elapsed = Date.now() - letterTouchStartTime;
   const endY = e.changedTouches[0] ? e.changedTouches[0].clientY : letterTouchStartY;
   const dy = Math.abs(endY - letterTouchStartY);
-  // Tap murni: cepat (< 300ms) dan tidak bergerak jauh (< 10px)
   if (!letterTouchMoved && elapsed < 300 && dy < 10) {
     closeLetterSafe();
   }
 }, { passive: true });
 
-// Desktop: klik untuk menutup (kecuali user sedang select teks)
 modal.addEventListener("click", () => {
   if (!modal.classList.contains("show")) return;
   const selection = window.getSelection && window.getSelection();
@@ -173,7 +196,6 @@ modal.addEventListener("click", () => {
   closeLetterSafe();
 });
 
-// Keyboard: Escape / Backspace untuk menutup
 document.addEventListener("keydown", e => {
   if ((e.key === "Escape" || e.key === "Backspace") && modal.classList.contains("show")) {
     e.preventDefault();
@@ -200,7 +222,7 @@ if (voiceAudio) {
   });
 }
 
-/* ---------- Mode Halaman (satu bagian per halaman) ---------- */
+/* ---------- Mode Halaman ---------- */
 (function setupPageNavigation(){
   const pageIds = ["home","little-things","letter","memories","voice","closing","videos"];
   const pages = pageIds.map(id => document.getElementById(id)).filter(Boolean);
@@ -261,7 +283,6 @@ if (voiceAudio) {
       nav.hidden = nav.dataset.pageId !== active.id;
     });
 
-    // Hentikan pesan-suara setiap berpindah halaman
     if (voiceAudio && !voiceAudio.paused) {
       voiceAudio.pause();
       voiceAudio.currentTime = 0;
@@ -289,7 +310,6 @@ if (voiceAudio) {
     }
   }
 
-  // Swipe kiri/kanan
   let touchStartX = 0, touchStartY = 0, touchStartAt = 0;
   document.addEventListener("touchstart", event => {
     if (!event.touches || event.touches.length !== 1) return;
