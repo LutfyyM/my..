@@ -1,11 +1,17 @@
-Website Nay — versi reset responsivitas
+WEBSITE NAY - RESPONSIVE FIX
 
-Isi ZIP: index.html, style.css, script.js, README.txt.
+File dalam paket: index.html, style.css, script.js.
 
-Pemasangan:
-1. Cadangkan folder website lama.
-2. Ganti index.html, style.css, dan script.js dengan file dari ZIP ini.
-3. Pertahankan folder assets milik website (foto, musik, dan video).
-4. Muat ulang browser dengan hard refresh atau bersihkan cache.
+Cara memasang:
+1. Backup folder website saat ini.
+2. Ganti index.html, style.css, dan script.js dengan file dari paket ini.
+3. Pertahankan folder assets/photos, assets/music, dan assets/videos milik website lama.
+4. Pastikan nama file stylesheet adalah style.css dan JavaScript adalah script.js.
+5. Reload paksa: Ctrl + F5 di desktop; di HP tutup lalu buka ulang browser atau bersihkan cache.
 
-CSS dibuat ulang dari stylesheet dasar yang bersih, lalu ditambahkan satu lapisan responsif konsisten untuk desktop, tablet, dan HP.
+Perbaikan:
+- Foto utama di HP kembali memakai bingkai persegi panjang seperti desktop dan konten hero ditumpuk rapi.
+- Navigasi halaman dikunci di tengah bawah viewport dan tidak melebar keluar layar.
+- Halaman aktif tetap bisa discroll jika kontennya lebih tinggi daripada layar.
+- Surat bisa dibaca/scroll tanpa tertutup karena ketukan di dalam teks; surat ditutup lewat area gelap di luar kertas atau tombol Escape.
+- Layout buku kenangan, audio, dan halaman penutup disesuaikan untuk layar kecil.

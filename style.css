@@ -1194,3 +1194,95 @@ body.paged-mode main > section.active-page#videos { overflow:hidden; }
   body.paged-mode #home .floating-card { padding:7px 8px !important; }
   body.paged-mode #home .floating-card span { font-size:17px !important; }
 }
+
+
+/* FINAL RESPONSIVE REPAIR: satu aturan konsisten setelah aturan lama yang bertabrakan. */
+html { width:100%; max-width:100%; }
+body { width:100%; max-width:100%; }
+main, main > section { min-width:0; }
+body.paged-mode main > section:not(.active-page) { display:none !important; }
+body.paged-mode main > section.active-page:not(#videos) {
+  width:100% !important; max-width:100% !important; min-width:0 !important;
+  min-height:calc(100dvh - 76px) !important; height:auto !important;
+  padding-bottom:calc(100px + env(safe-area-inset-bottom)) !important;
+  overflow-x:clip !important;
+}
+body.paged-mode .page-navigation {
+  position:fixed !important; left:50% !important; right:auto !important;
+  bottom:max(10px, env(safe-area-inset-bottom)) !important;
+  transform:translateX(-50%) !important; width:min(360px, calc(100vw - 32px)) !important;
+  max-width:calc(100vw - 32px) !important; min-width:0 !important;
+  display:flex !important; align-items:center !important; justify-content:space-between !important;
+  gap:10px !important; margin:0 !important; padding:8px 10px !important;
+  border:1px solid var(--line) !important; border-radius:15px !important;
+  background:rgba(255,249,247,.97) !important; box-shadow:0 5px 20px #382c3117 !important;
+  z-index:100 !important; box-sizing:border-box !important;
+}
+body.paged-mode .page-navigation[hidden] { display:none !important; }
+body.paged-mode .page-navigation button { flex:0 0 42px !important; width:42px !important; min-width:42px !important; height:42px !important; padding:0 !important; }
+body.paged-mode .page-navigation .page-counter { flex:1 1 auto; min-width:0; text-align:center; }
+/* Surat dibaca sebagai satu kertas yang boleh discroll; tap pada teks tidak menutupnya. */
+.letter-modal { position:fixed !important; inset:0 !important; display:none; align-items:flex-start !important;
+  justify-content:center !important; overflow-y:auto !important; overflow-x:hidden !important;
+  padding:clamp(10px, 3vh, 26px) 12px !important; box-sizing:border-box !important;
+  -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+.letter-modal.show { display:flex !important; }
+.letter-full { flex:0 0 auto; width:min(100%, 650px) !important; max-width:650px !important;
+  max-height:calc(100dvh - 2 * clamp(10px, 3vh, 26px)) !important;
+  overflow-y:auto !important; overflow-x:hidden !important; overscroll-behavior:contain;
+  touch-action:pan-y; padding:clamp(22px, 5vw, 48px) !important;
+  overflow-wrap:anywhere; line-height:1.8; }
+.letter-body { white-space:pre-line !important; overflow-wrap:anywhere !important; word-break:normal; line-height:1.9 !important; }
+body.letter-reading { overflow:hidden !important; }
+/* Foto utama di HP tetap memakai bingkai persegi panjang seperti desktop, bukan lingkaran. */
+@media (max-width:760px) {
+  html, body { overflow-x:hidden !important; }
+  .topbar { padding-inline:14px !important; gap:8px; }
+  .brand { min-width:0; max-width:65%; }
+  .section { padding-inline:clamp(16px, 5vw, 26px) !important; }
+  body.paged-mode main > section.active-page:not(#videos) {
+    min-height:calc(100dvh - 62px) !important;
+    padding-top:clamp(28px, 5vh, 42px) !important;
+    padding-bottom:calc(100px + env(safe-area-inset-bottom)) !important;
+  }
+  body.paged-mode #home.active-page.hero {
+    display:flex !important; flex-direction:column !important; align-items:stretch !important;
+    justify-content:flex-start !important; gap:12px !important; min-height:0 !important;
+    padding:30px 18px calc(100px + env(safe-area-inset-bottom)) !important;
+    width:100% !important; max-width:100% !important; margin:0 !important;
+  }
+  body.paged-mode #home .hero-copy { width:100% !important; max-width:100% !important; }
+  body.paged-mode #home .hero h1 { font-size:clamp(32px, 8.6vw, 48px) !important; line-height:1.13 !important; letter-spacing:-.7px !important; overflow-wrap:break-word; }
+  body.paged-mode #home .hero-description { max-width:100% !important; font-size:13px !important; line-height:1.75 !important; }
+  body.paged-mode #home .hero-art { width:100% !important; max-width:430px !important; height:clamp(290px, 82vw, 350px) !important; margin:12px auto 0 !important; flex:0 0 auto !important; overflow:visible !important; }
+  body.paged-mode #home .sun-disc { width:min(72vw, 280px) !important; right:50% !important; top:4% !important; transform:translateX(50%) !important; }
+  body.paged-mode #home .main-frame { width:min(68%, 270px) !important; height:clamp(250px, 68vw, 310px) !important; aspect-ratio:auto !important;
+    padding:9px 9px 30px !important; border:1px solid #fff !important; border-radius:0 !important;
+    overflow:hidden !important; transform:rotate(3deg) !important; background:#f7e5e5 !important; }
+  body.paged-mode #home .main-frame img { width:100% !important; height:100% !important; border-radius:0 !important; object-fit:cover !important; }
+  body.paged-mode #home .main-frame .photo-placeholder-text { inset:9px 9px 30px !important; border-radius:0 !important; }
+  body.paged-mode #home .floating-card { display:flex !important; max-width:47% !important; font-size:clamp(9px, 2.7vw, 11px) !important; padding:8px 9px !important; }
+  body.paged-mode #home .card-top { left:0 !important; top:6% !important; }
+  body.paged-mode #home .card-bottom { right:0 !important; bottom:6% !important; }
+  body.paged-mode #home .sparkle-two, body.paged-mode #home .sparkle-three { display:none !important; }
+  .reason-grid { grid-template-columns:minmax(0,1fr) !important; }
+  .letter-section { grid-template-columns:minmax(0,1fr) !important; }
+  .memory-book, .book-stage, .book-spread { width:100% !important; max-width:100% !important; min-width:0 !important; }
+  .book-spread { grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important; }
+  .book-page { padding-inline:8px !important; }
+  .book-photo-wrap { height:clamp(115px, 35vw, 165px) !important; }
+  .voice-card { grid-template-columns:minmax(0,1fr) !important; }
+  .closing-actions { align-items:stretch !important; }
+  .letter-modal { padding:8px !important; }
+  .letter-full { width:100% !important; max-width:100% !important; max-height:calc(100dvh - 16px) !important; padding:24px 20px !important; }
+  .letter-full h3 { font-size:clamp(24px, 7vw, 30px) !important; line-height:1.25; }
+  .letter-body { font-size:14px !important; line-height:1.85 !important; }
+}
+@media (max-width:390px) {
+  body.paged-mode #home.active-page.hero { padding-inline:15px !important; }
+  body.paged-mode #home .hero-art { height:285px !important; }
+  body.paged-mode #home .main-frame { width:min(70%, 245px) !important; height:235px !important; }
+  body.paged-mode #home .floating-card { padding:7px 8px !important; }
+  .book-page p { font-size:10px !important; }
+  .letter-full { padding:20px 16px !important; }
+}

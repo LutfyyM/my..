@@ -129,32 +129,11 @@ function closeLetter() {
   $("envelopeHint").textContent = "KETUK UNTUK MEMBUKA";
   envelope.focus({ preventScroll: true });
 }
-// Ketuk di mana saja pada layar untuk kembali dari surat.
-// Gesture geser untuk scroll tidak menutup surat; deteksi pointer dipasang pada
-// document agar ketukan di area kosong di luar kartu surat juga berfungsi.
-let letterPointerStart = null;
-document.addEventListener("pointerdown", event => {
-  if (!modal.classList.contains("show")) return;
-  letterPointerStart = {
-    x: event.clientX,
-    y: event.clientY,
-    scrollTop: modal.scrollTop,
-    cardScrollTop: (modal.querySelector(".letter-full") || modal).scrollTop,
-    pointerId: event.pointerId
-  };
-}, { passive: true, capture: true });
-document.addEventListener("pointerup", event => {
-  if (!modal.classList.contains("show") || !letterPointerStart) return;
-  const start = letterPointerStart;
-  letterPointerStart = null;
-  if (start.pointerId !== event.pointerId) return;
-  const moved = Math.hypot(event.clientX - start.x, event.clientY - start.y);
-  const card = modal.querySelector(".letter-full");
-  const scrolled = Math.abs(modal.scrollTop - start.scrollTop) > 2 ||
-    Math.abs((card || modal).scrollTop - start.cardScrollTop) > 2;
-  if (moved <= 10 && !scrolled) closeLetter();
-}, { passive: true, capture: true });
-document.addEventListener("pointercancel", () => { letterPointerStart = null; }, { passive: true, capture: true });
+// Surat hanya ditutup jika pengguna mengetuk area gelap di luar kertas.
+// Ketukan/geseran di dalam surat tetap bisa dipakai untuk membaca dan scroll.
+modal.addEventListener("click", event => {
+  if (event.target.matches("[data-close-letter]")) closeLetter();
+});
 document.addEventListener("keydown", e => { if ((e.key === "Escape" || e.key === "Backspace") && modal.classList.contains("show")) { e.preventDefault(); closeLetter(); } });
 $("startButton").addEventListener("click", () => window.showGiftPage?.(1));
 $("replayButton").addEventListener("click", () => window.showGiftPage?.(0));
