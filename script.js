@@ -49,6 +49,21 @@ $("letterBody").textContent = CONFIG.letterBody.replace(/\\n/g, "\n");
 $("letterSignoff").textContent = CONFIG.letterSignoff;
 $("closingMessage").textContent = CONFIG.closingMessage;
 
+// Video Nay tidak boleh mengeluarkan suara. Kontrol play/pause dan timeline
+// tetap tersedia, sementara musik-latar diputar melalui audio terpisah.
+const nayMemoryVideo = $("nayMemoryVideo");
+if (nayMemoryVideo) {
+  nayMemoryVideo.muted = true;
+  nayMemoryVideo.defaultMuted = true;
+  nayMemoryVideo.volume = 0;
+  nayMemoryVideo.addEventListener("volumechange", () => {
+    if (!nayMemoryVideo.muted || nayMemoryVideo.volume !== 0) {
+      nayMemoryVideo.muted = true;
+      nayMemoryVideo.volume = 0;
+    }
+  });
+}
+
 const bgMusic = new Audio(CONFIG.backgroundMusic);
 bgMusic.loop = true;
 bgMusic.volume = 1.0;
@@ -143,7 +158,7 @@ document.addEventListener("pointercancel", () => { letterPointerStart = null; },
 document.addEventListener("keydown", e => { if ((e.key === "Escape" || e.key === "Backspace") && modal.classList.contains("show")) { e.preventDefault(); closeLetter(); } });
 $("startButton").addEventListener("click", () => window.showGiftPage?.(1));
 $("replayButton").addEventListener("click", () => window.showGiftPage?.(0));
-$("closingNextButton").addEventListener("click", () => window.showGiftPage?.(6));
+$("closingNextButton").addEventListener("click", () => window.showGiftPage?.(document.querySelectorAll("main > section").length - 1));
 $("voiceAudio").src = CONFIG.voiceMessage;
 
   
@@ -179,7 +194,7 @@ voiceAudio.addEventListener("ended", () => {
     const back = document.createElement("button");
     back.className = "page-back";
     back.type = "button";
-    back.textContent = index === 0 ? "♡ Dari awal" : "← Sebelumnya";
+    back.textContent = "<";
     back.disabled = index === 0;
     if (index === 0) back.style.visibility = "hidden";
     const counter = document.createElement("span");
@@ -188,10 +203,10 @@ voiceAudio.addEventListener("ended", () => {
     const next = document.createElement("button");
     next.className = "page-next";
     next.type = "button";
-    next.textContent = index === 5 ? "Lanjut ke video →" : (index === pages.length - 1 ? "Ulangi dari awal ↻" : "Selanjutnya →");
+    next.textContent = ">";
     back.addEventListener("click", () => showPage(index - 1));
     next.addEventListener("click", () => showPage(index === pages.length - 1 ? 0 : index + 1));
-    if (index === 5) nav.append(back, counter);
+    if (page.id === "closing" || page.id === "videos") nav.append(back, counter);
     else nav.append(back, counter, next);
     nav.dataset.pageId = page.id;
     nav.hidden = index !== 0;
@@ -211,7 +226,7 @@ voiceAudio.addEventListener("ended", () => {
       nav.hidden = nav.dataset.pageId !== active.id;
     });
 
-    // Hentikan pesan-suara setiap kali pengguna berpindah halaman.
+     // Hentikan pesan-suara setiap kali pengguna berpindah halaman.
     const voiceAudio = $("voiceAudio");
     if (voiceAudio && !voiceAudio.paused) {
       voiceAudio.pause();
@@ -272,7 +287,7 @@ voiceAudio.addEventListener("ended", () => {
     $("bookCounter").textContent = `Halaman ${spread * 2 + 1}–${spread * 2 + 2} dari 06`;
     prev.disabled = spread <= 0;
     next.disabled = false;
-    next.textContent = spread === memories.length - 1 ? "Tutup buku ↻" : "Halaman berikutnya →";
+    next.textContent = ">";
   }
   $("openBookButton").addEventListener("click", () => {
     if (spread === -1) {
@@ -286,7 +301,7 @@ voiceAudio.addEventListener("ended", () => {
     if (spread === -1) return;
     if (spread >= memories.length - 1) {
       spread = -1; cover.classList.remove("cover-open"); book.classList.remove("book-open");
-      prev.disabled = true; next.disabled = true; next.textContent = "Halaman berikutnya →"; $("bookCounter").textContent = "Sampul buku";
+      prev.disabled = true; next.disabled = true; next.textContent = ">"; $("bookCounter").textContent = "Sampul buku";
       return;
     }
     spreadEl.classList.add("turning");

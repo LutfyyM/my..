@@ -909,3 +909,251 @@ body.paged-mode #home.active-page .main-frame img {
 
 /* Aksi Like, Comment, dan Share pada video hanya pajangan. */
 #videos .short-actions button { pointer-events: none; cursor: default; }
+
+
+/* =========================================================
+   RESPONSIVE RESET — satu aturan konsisten untuk desktop & HP
+   ========================================================= */
+:root { color-scheme: light; }
+html { width:100%; max-width:100%; overflow-x:clip; }
+body { width:100%; max-width:100%; min-width:0; overflow-x:clip; }
+*, *::before, *::after { box-sizing:border-box; }
+img, video, canvas, svg, iframe { max-width:100%; }
+button, input, textarea, audio { max-width:100%; }
+main { width:100%; max-width:100%; min-width:0; margin-inline:auto; }
+main > section { width:100%; min-width:0; max-width:100%; overflow-wrap:break-word; }
+main > section * { min-width:0; }
+[hidden] { display:none !important; }
+
+/* Navigasi antarhalaman: selalu di dalam layar, bukan ikut melebar dengan konten. */
+body.paged-mode .page-navigation {
+  position:fixed !important;
+  z-index:90 !important;
+  left:50% !important;
+  right:auto !important;
+  bottom:max(12px, env(safe-area-inset-bottom)) !important;
+  transform:translateX(-50%);
+  width:min(360px, calc(100% - 32px)) !important;
+  max-width:calc(100vw - 32px) !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:8px 10px !important;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border:1px solid rgba(238,221,225,.9);
+  border-radius:16px;
+  background:rgba(255,249,247,.94);
+  box-shadow:0 5px 18px rgba(70,40,50,.09);
+  backdrop-filter:blur(12px);
+}
+body.paged-mode .page-navigation[hidden] { display:none !important; }
+body.paged-mode .page-navigation button {
+  flex:0 0 42px;
+  width:42px;
+  height:42px;
+  min-width:42px;
+  max-width:42px;
+  padding:0 !important;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  font-size:20px !important;
+  line-height:1;
+  white-space:nowrap;
+}
+body.paged-mode .page-navigation .page-counter {
+  flex:1 1 auto;
+  min-width:0;
+  margin:0;
+  text-align:center;
+  font-size:10px;
+  letter-spacing:1px;
+}
+body.paged-mode main > section.active-page:not(#videos) {
+  padding-bottom:calc(90px + env(safe-area-inset-bottom)) !important;
+}
+body.paged-mode main > section.active-page#videos { overflow:hidden; }
+
+/* Desktop/laptop: layout terpusat dengan batas lebar yang wajar. */
+@media (min-width:761px) {
+  .topbar { padding-inline:clamp(24px, 5vw, 88px); }
+  .hero { width:100%; max-width:1440px; padding-inline:clamp(36px, 7vw, 110px); gap:clamp(24px, 4vw, 64px); }
+  .hero-copy, .hero-art, .letter-side, .envelope-wrap, .voice-card, .section-heading,
+  .memory-book, .closing > p { min-width:0; }
+  .intro, .memories, .voice-section, .closing, .letter-section { padding-inline:clamp(36px, 7vw, 110px); }
+  .letter-section { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+  .reason-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .voice-card { grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); }
+  .page-navigation { width:min(360px, calc(100% - 48px)); }
+}
+
+/* Tablet dan HP: satu kolom, lebar konten selalu mengikuti viewport. */
+@media (max-width:760px) {
+  html, body { width:100%; max-width:100%; overflow-x:clip !important; }
+  .topbar { width:100%; height:62px; padding:0 14px; gap:8px; }
+  .brand { min-width:0; max-width:65%; gap:6px; font-size:14px; overflow:hidden; }
+  .brand-heart { flex:0 0 auto; font-size:21px; }
+  .music-toggle { flex:0 0 auto; padding:8px 10px; gap:6px; font-size:10px; }
+  .section { padding-left:clamp(16px, 5vw, 28px) !important; padding-right:clamp(16px, 5vw, 28px) !important; }
+  body.paged-mode main > section.active-page:not(#videos) {
+    width:100% !important; max-width:100% !important; min-width:0 !important;
+    min-height:calc(100svh - 62px); height:auto !important;
+    padding-top:clamp(24px, 5vh, 42px) !important;
+    padding-bottom:calc(86px + env(safe-area-inset-bottom)) !important;
+    margin-inline:0 !important;
+  }
+  body.paged-mode #home.active-page.hero {
+    display:flex !important; flex-direction:column !important; align-items:stretch !important;
+    justify-content:flex-start !important; gap:8px !important;
+    width:100% !important; max-width:100% !important; min-height:0 !important;
+    padding:30px clamp(16px,5vw,28px) calc(92px + env(safe-area-inset-bottom)) !important;
+  }
+  #home .hero-copy { width:100%; max-width:100%; }
+  #home .hero h1 { font-size:clamp(31px, 8.4vw, 48px) !important; line-height:1.13; letter-spacing:-.8px; margin:16px 0; overflow-wrap:normal; }
+  #home .hero-description { max-width:100%; font-size:13px; line-height:1.75; }
+  #home .hero-note { flex-wrap:wrap; margin-top:22px; line-height:1.6; }
+  #home .hero-art { width:100%; max-width:430px; height:clamp(250px, 76vw, 330px); margin:14px auto 0; overflow:visible; }
+  #home .sun-disc { width:min(66vw, 260px); right:8%; top:4%; }
+  #home .main-frame { width:min(60%, 230px); height:auto; aspect-ratio: .78 / 1; padding:9px 9px 30px; transform:rotate(2deg); }
+  #home .main-frame img { width:100%; height:100%; object-fit:cover; }
+  #home .photo-placeholder-text { inset:9px 9px 30px; font-size:clamp(15px,4vw,20px); }
+  #home .floating-card { max-width:47%; padding:9px 10px; gap:7px; font-size:clamp(9px,2.6vw,11px); box-shadow:0 5px 14px rgba(70,40,50,.08); }
+  #home .floating-card span { font-size:19px; }
+  #home .card-top { left:0; top:5%; }
+  #home .card-bottom { right:0; bottom:5%; }
+  #home .sparkle-two, #home .sparkle-three { display:none; }
+  .intro, .memories { padding-top:44px !important; padding-bottom:35px !important; }
+  .section-heading { width:100%; max-width:100%; }
+  .section-heading h2, .letter-side h2, .voice-copy h2, .closing h2 { font-size:clamp(30px, 8vw, 40px); overflow-wrap:normal; }
+  .section-heading p, .letter-side>p, .voice-copy>p, .closing>p { max-width:100%; }
+  .reason-grid { grid-template-columns:minmax(0,1fr); gap:12px; margin-top:24px; }
+  .reason-card { min-height:0; padding:20px; }
+  .reason-card h3 { margin:20px 0 10px; }
+  .letter-section { grid-template-columns:minmax(0,1fr); gap:6px; padding-top:34px !important; padding-bottom:30px !important; }
+  .letter-caption { margin-top:18px; line-height:1.6; }
+  .envelope-wrap { width:100%; min-width:0; min-height:260px; }
+  .envelope { width:min(100%, 320px); height:195px; }
+  .envelope-shadow { width:min(78%, 250px); }
+  .letter-paper { padding:16px 18px; }
+  .letter-paper p { overflow-wrap:anywhere; }
+  .memory-grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-rows:210px 170px; gap:9px; }
+  .memory { min-width:0; }
+  .memory figcaption { padding:24px 10px 12px; }
+  .memory figcaption strong { font-size:clamp(12px,3.6vw,15px); }
+  .memory-book { width:100%; max-width:100%; margin:24px auto 0; }
+  .book-stage { width:100%; min-height:clamp(270px, 78vw, 340px); }
+  .book-cover { width:100%; max-width:100%; height:clamp(260px, 72vw, 320px); }
+  .book-spread { width:100%; max-width:100%; min-height:clamp(260px, 72vw, 320px); }
+  .book-page { padding:25px 9px 14px; min-width:0; }
+  .book-photo-wrap { width:100%; height:clamp(120px, 38vw, 160px); }
+  .book-page p { font-size:clamp(10px, 2.8vw, 12px); overflow-wrap:anywhere; }
+  .book-controls { width:100%; flex-wrap:wrap; gap:8px; }
+  .book-controls button { min-width:0; max-width:45%; padding:10px 8px; }
+  .voice-section { padding-top:30px !important; padding-bottom:30px !important; }
+  .voice-card { width:100%; max-width:100%; grid-template-columns:minmax(0,1fr); gap:14px; padding:20px 16px; }
+  .voice-visual { height:170px; }
+  .record-outer { width:min(46vw, 160px); }
+  .record-inner { width:64px; }
+  .voice-copy { width:100%; min-width:0; }
+  .media-controls, .media-controls audio { width:100%; max-width:100%; }
+  .closing { padding-top:40px !important; padding-bottom:25px !important; }
+  .closing-stars { margin-bottom:12px; }
+  .closing-actions { width:100%; gap:8px; }
+  .closing-actions button { width:100%; max-width:100%; margin-top:12px !important; }
+  footer { padding:18px 16px; gap:10px; }
+  .ambient { width:120px !important; height:120px !important; filter:blur(42px) !important; opacity:.13 !important; }
+  body.paged-mode #videos.active-page { position:fixed; inset:0; width:100vw; max-width:100vw; height:100dvh; padding:0 !important; }
+  body.paged-mode #videos .shorts-feed { width:100vw; max-width:100vw; height:100dvh; min-height:100dvh; }
+  body.paged-mode #videos .short-video { width:100%; height:100dvh; min-height:100dvh; }
+}
+@media (max-width:390px) {
+  .topbar { padding-inline:10px; }
+  .brand { font-size:12px; }
+  .music-toggle { padding:7px 8px; font-size:9px; }
+  #home .hero h1 { font-size:clamp(29px,8vw,34px) !important; }
+  #home .hero-art { height:260px; }
+  #home .main-frame { width:min(58%,190px); }
+  #home .floating-card { padding:7px 8px; }
+  .memory-grid { grid-template-rows:185px 150px; }
+  .book-cover-small { letter-spacing:1.8px; font-size:8px; }
+  .book-cover-bottom { font-size:10px; text-align:center; padding-inline:12px; }
+  .page-navigation { width:calc(100% - 24px) !important; max-width:calc(100vw - 24px) !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.paged-mode main > section.active-page { animation:none !important; }
+}
+
+
+/* Final mobile polish: keep the hero photo framing consistent with desktop. */
+@media (max-width: 760px) {
+  body { overflow-x: hidden; }
+  body.paged-mode main > section.active-page:not(#videos) {
+    box-sizing: border-box;
+    overflow-x: clip;
+  }
+  body.paged-mode #home.active-page.hero {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+    padding-top: clamp(26px, 5vh, 42px) !important;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
+  }
+  #home .hero-copy { min-width: 0; }
+  #home .hero h1 {
+    font-size: clamp(31px, 8.2vw, 46px) !important;
+    line-height: 1.14 !important;
+    letter-spacing: -0.7px !important;
+    margin: 15px 0 17px !important;
+    overflow-wrap: break-word;
+  }
+  #home .hero-description { font-size: 13px; line-height: 1.8; }
+  #home .primary-button { max-width: 100%; padding: 13px 16px; }
+  #home .hero-art {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    height: clamp(300px, 88vw, 360px) !important;
+    margin: 12px auto 0 !important;
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+  #home .sun-disc {
+    width: min(68vw, 270px) !important;
+    right: 7% !important;
+    top: 3% !important;
+  }
+  #home .main-frame {
+    width: min(68%, 255px) !important;
+    height: clamp(255px, 76vw, 320px) !important;
+    aspect-ratio: auto !important;
+    padding: 10px 10px 32px !important;
+    border: 1px solid #fff !important;
+    transform: rotate(3deg) !important;
+    flex: 0 0 auto;
+  }
+  #home .main-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+  #home .photo-placeholder-text { inset: 10px 10px 32px !important; }
+  #home .floating-card { max-width: 48%; }
+  #home .card-top { left: 0 !important; top: 5% !important; }
+  #home .card-bottom { right: 0 !important; bottom: 5% !important; }
+  #home .hero-note { max-width: 100%; }
+  .page-navigation { max-width: calc(100vw - 24px) !important; }
+}
+@media (max-width: 390px) {
+  #home .hero-art { height: 300px !important; }
+  #home .main-frame {
+    width: min(68%, 220px) !important;
+    height: 255px !important;
+  }
+  #home .floating-card { padding: 7px 8px !important; }
+  #home .floating-card span { font-size: 17px !important; }
+}
