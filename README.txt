@@ -7,20 +7,16 @@ File utama:
 
 Cara memasang:
 1. Cadangkan folder website lama.
-2. Ganti file index.html, style.css, dan script.js dengan file dari folder ini.
-3. Simpan video Nay dalam format MP4 di: assets/videos/nay.mp4
-   Jika nama/path videonya berbeda, ubah src pada elemen #nayMemoryVideo di index.html.
-4. Pastikan folder assets dan file foto/audio lama tetap berada di lokasi yang sama.
-5. Buka index.html melalui browser atau jalankan lewat local server.
+2. Ganti index.html, style.css, dan script.js dengan file dari ZIP ini.
+3. Jangan hapus folder assets yang sudah ada; foto utama tetap menggunakan assets/photos/foto-utama.jpg dan musik/audio memakai file di assets/music/.
+4. Buka website melalui browser atau local server.
 
-Halaman baru:
-- Setelah halaman “Nay, Apa Kabarmu?” ada halaman rindu Nay dan ke-random-an dia.
-- Tombol “Lihat ›” membuka halaman video.
-- Pemutar video menggunakan kontrol bawaan browser: play/pause, durasi, seek, dan volume jika didukung browser.
+Perbaikan terbaru:
+- Foto utama dibuat terlihat kembali dengan bingkai foto dan bayangan yang lebih kecil.
+- Hiasan “you were / my safe place” dan “still loved, / even from afar” ditampilkan kembali pada HP.
+- Ukuran dekorasi menyesuaikan layar kecil.
+- Konten dan navigasi dibatasi agar tidak melebar melewati lebar layar HP.
+- Tombol navigasi halaman hanya menggunakan < dan >.
 
 Catatan:
-Video nay.mp4 tidak disertakan karena belum ada file video yang diunggah. Tambahkan video milikmu sendiri pada path tersebut.
-
-Update terbaru: halaman video kenangan khusus dan halaman “Nay, aku rindu kamu dan ke-random-anmu” telah dihapus. Halaman video pendek asli di bagian penutup tetap dipertahankan.
-
-Update: tombol navigasi halaman dan buku kenangan sekarang hanya menampilkan < dan >. Pada HP, foto utama ditempatkan di bagian awal halaman pembuka.
+ZIP ini berisi file HTML, CSS, dan JavaScript. Foto, audio, dan video milik website harus tetap berada di folder assets masing-masing. Jika foto utama tidak muncul, pastikan file assets/photos/foto-utama.jpg masih ada dan nama file sama persis.
