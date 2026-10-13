@@ -625,3 +625,175 @@ body.paged-mode main > section.active-page:not(#videos) > *{
     width:100% !important;max-width:100% !important;box-sizing:border-box !important;
   }
 }
+
+/* =========================================================
+   PERBAIKAN AUDIO PLAYER DI HP — agar pesan-suara terlihat
+   ========================================================= */
+.media-controls{
+  margin-top:22px;
+  width:100%;
+  min-height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.media-controls audio{
+  display:block;
+  width:100%;
+  max-width:520px;
+  height:54px;
+  min-height:54px;
+  background:#fff;
+  border-radius:30px;
+  outline:none;
+  accent-color:#c87e94;
+  box-shadow:0 4px 14px rgba(200,126,148,.15);
+}
+/* Webkit: kontrol audio bawaan agar tampil penuh */
+.media-controls audio::-webkit-media-controls-enclosure{
+  border-radius:30px;
+  background:#fff5f8;
+  padding:0 6px;
+}
+.media-controls audio::-webkit-media-controls-panel{
+  background:#fff5f8;
+}
+
+/* Desktop tetap sama seperti sebelumnya */
+@media (min-width:761px){
+  .media-controls audio{height:44px;min-height:44px}
+}
+
+@media (max-width:760px){
+  .media-controls{
+    min-height:70px;
+    margin-top:18px;
+    padding:0 4px;
+  }
+  .media-controls audio{
+    width:100% !important;
+    height:58px;
+    min-height:58px;
+    border-radius:32px;
+  }
+  .media-controls audio::-webkit-media-controls-enclosure{
+    height:56px;
+    border-radius:32px;
+  }
+  .media-controls audio::-webkit-media-controls-play-button,
+  .media-controls audio::-webkit-media-controls-current-time-display,
+  .media-controls audio::-webkit-media-controls-time-remaining-display{
+    color:#8a5c6c;
+  }
+  .media-controls audio::-webkit-media-controls-timeline{
+    color:#c87e94;
+  }
+}
+
+/* =========================================================
+   PERBAIKAN CAPTION & AKSI VIDEO DI HP — naikkan supaya tidak
+   ketutup navigasi, dan kecilkan agar proporsional
+   ========================================================= */
+
+/* Di HP: naikkan bottom caption & actions supaya tidak ketutup page-navigation */
+@media (max-width:760px){
+  /* Di dalam mode paged, #videos full-screen tapi tetap harus ada ruang di bawah */
+  body.paged-mode #videos .shorts-feed{
+    height:100vh;
+    min-height:100vh;
+    /* Sisakan ruang bawah untuk navigasi page */
+    padding-bottom:0;
+  }
+  body.paged-mode #videos .short-video{
+    height:100vh;
+    min-height:100vh;
+    padding-bottom:0;
+  }
+  /* Caption naik ke atas sedikit agar tidak ketutup navigasi & safe area */
+  body.paged-mode #videos .short-caption{
+    left:14px;
+    right:76px;
+    bottom:calc(90px + env(safe-area-inset-bottom)) !important;
+    text-shadow:0 2px 6px #000c;
+    max-width:calc(100% - 90px);
+  }
+  body.paged-mode #videos .short-caption p{
+    font-size:12px;
+    line-height:1.5;
+    margin:6px 0;
+    overflow-wrap:anywhere;
+  }
+  body.paged-mode #videos .video-handle{font-size:10px}
+  body.paged-mode #videos .caption-tags{font-size:9px}
+
+  /* Tombol like/comment/share naik sejajar dengan caption */
+  body.paged-mode #videos .short-actions{
+    right:8px;
+    bottom:calc(90px + env(safe-area-inset-bottom)) !important;
+    gap:14px;
+  }
+  body.paged-mode #videos .short-actions button>span,
+  body.paged-mode #videos .profile-dot{
+    width:34px;height:34px;font-size:18px;
+  }
+  body.paged-mode #videos .short-actions button small{font-size:7px}
+
+  /* Video di dalam section paged: kurangi tinggi sedikit agar caption muat */
+  body.paged-mode #videos .short-video video{
+    object-fit:contain;
+  }
+}
+
+/* HP kecil */
+@media (max-width:390px){
+  body.paged-mode #videos .short-caption{
+    left:12px;
+    right:68px;
+    bottom:calc(86px + env(safe-area-inset-bottom)) !important;
+  }
+  body.paged-mode #videos .short-caption p{font-size:11px;line-height:1.45}
+  body.paged-mode #videos .video-handle{font-size:9px}
+  body.paged-mode #videos .caption-tags{font-size:8px}
+  body.paged-mode #videos .short-actions{
+    right:6px;
+    bottom:calc(86px + env(safe-area-inset-bottom)) !important;
+    gap:12px;
+  }
+  body.paged-mode #videos .short-actions button>span,
+  body.paged-mode #videos .profile-dot{
+    width:32px;height:32px;font-size:17px;
+  }
+  body.paged-mode #videos .short-actions button small{font-size:6px}
+}
+
+/* HP dalam posisi landscape: caption & aksi agar tetap terlihat */
+@media (max-height:500px) and (orientation:landscape){
+  body.paged-mode #videos .short-caption{
+    bottom:calc(70px + env(safe-area-inset-bottom)) !important;
+    font-size:11px;
+  }
+  body.paged-mode #videos .short-actions{
+    bottom:calc(70px + env(safe-area-inset-bottom)) !important;
+    gap:10px;
+  }
+  body.paged-mode #videos .short-actions button>span,
+  body.paged-mode #videos .profile-dot{
+    width:30px;height:30px;font-size:16px;
+  }
+}
+
+/* Non-paged (fallback): caption & aksi juga naikkan sedikit */
+@media (max-width:760px){
+  .short-caption{
+    left:14px;right:74px;
+    bottom:calc(80px + env(safe-area-inset-bottom));
+    font-size:12px;
+  }
+  .short-actions{
+    right:8px;
+    bottom:calc(80px + env(safe-area-inset-bottom));
+    gap:14px;
+  }
+  .short-actions button>span,
+  .profile-dot{width:34px;height:34px;font-size:18px}
+}
