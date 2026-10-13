@@ -105,6 +105,7 @@ $("musicToggle").addEventListener("click", async () => {
 /* ---------- Envelope & Letter Modal ---------- */
 const envelope = $("envelopeButton");
 const modal = $("letterModal");
+
 envelope.addEventListener("click", () => {
   envelope.classList.add("open");
   $("envelopeHint").textContent = "SURAT TERBUKA ♡";
@@ -118,7 +119,10 @@ envelope.addEventListener("click", () => {
     if (letterCard) letterCard.scrollTop = 0;
   }, 450);
 });
-function closeLetter() {
+
+// Fungsi tutup surat dipakai bersama oleh tap / click / keyboard
+function closeLetterSafe(){
+  if (!modal.classList.contains("show")) return;
   modal.classList.remove("show");
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("letter-reading");
@@ -126,19 +130,54 @@ function closeLetter() {
   const letterCard = modal.querySelector(".letter-full");
   if (letterCard) letterCard.scrollTop = 0;
   envelope.classList.remove("open");
-  $("envelopeHint").textContent = "KETUK UNTUK MEMBUKA";
-  envelope.focus({ preventScroll: true });
+  const hint = $("envelopeHint");
+  if (hint) hint.textContent = "KETUK UNTUK MEMBUKA";
 }
-// Tap di backdrop (area gelap) untuk menutup surat.
-modal.addEventListener("click", event => {
+
+/* Tap di mana saja untuk menutup surat — tetap bisa discroll.
+   Logika: tap murni (cepat & tidak bergerak) → tutup.
+   Scroll (bergerak lebih dari 10px) → tidak menutup. */
+let letterTouchStartY = 0;
+let letterTouchStartTime = 0;
+let letterTouchMoved = false;
+
+modal.addEventListener("touchstart", (e) => {
   if (!modal.classList.contains("show")) return;
-  if (event.target.closest(".letter-full")) return;
-  closeLetter();
+  letterTouchStartY = e.touches[0].clientY;
+  letterTouchStartTime = Date.now();
+  letterTouchMoved = false;
+}, { passive: true });
+
+modal.addEventListener("touchmove", (e) => {
+  if (!modal.classList.contains("show")) return;
+  const dy = Math.abs(e.touches[0].clientY - letterTouchStartY);
+  if (dy > 10) letterTouchMoved = true;
+}, { passive: true });
+
+modal.addEventListener("touchend", (e) => {
+  if (!modal.classList.contains("show")) return;
+  const elapsed = Date.now() - letterTouchStartTime;
+  const endY = e.changedTouches[0] ? e.changedTouches[0].clientY : letterTouchStartY;
+  const dy = Math.abs(endY - letterTouchStartY);
+  // Tap murni: cepat (< 300ms) dan tidak bergerak jauh (< 10px)
+  if (!letterTouchMoved && elapsed < 300 && dy < 10) {
+    closeLetterSafe();
+  }
+}, { passive: true });
+
+// Desktop: klik untuk menutup (kecuali user sedang select teks)
+modal.addEventListener("click", () => {
+  if (!modal.classList.contains("show")) return;
+  const selection = window.getSelection && window.getSelection();
+  if (selection && selection.toString().length > 0) return;
+  closeLetterSafe();
 });
+
+// Keyboard: Escape / Backspace untuk menutup
 document.addEventListener("keydown", e => {
   if ((e.key === "Escape" || e.key === "Backspace") && modal.classList.contains("show")) {
     e.preventDefault();
-    closeLetter();
+    closeLetterSafe();
   }
 });
 

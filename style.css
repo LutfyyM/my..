@@ -287,16 +287,21 @@ body.paged-mode main > section.active-page{animation:pageIn .35s ease both}
 @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 body.paged-mode .page-navigation{
-  position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));
-  transform:translateX(-50%);
-  width:min(360px,calc(100vw - 28px));max-width:calc(100vw - 28px);
-  min-height:58px;padding:8px 10px;
+  position:fixed;
+  left:16px;
+  right:16px;
+  bottom:max(12px,env(safe-area-inset-bottom));
+  margin:0 auto;
+  max-width:400px;
+  min-height:58px;
+  padding:8px 10px;
   display:flex;align-items:center;justify-content:space-between;gap:10px;
   border:1px solid var(--line);border-radius:18px;
   background:rgba(255,249,247,.97);
   box-shadow:0 8px 24px rgba(67,42,50,.08);
   backdrop-filter:blur(12px);
   z-index:999;box-sizing:border-box;
+  transform:none !important;
 }
 body.paged-mode .page-navigation[hidden]{display:none !important}
 body.paged-mode .page-navigation button{
@@ -380,7 +385,6 @@ body.paged-mode .video-page-footer{display:none !important}
 
   .section{padding-left:18px;padding-right:18px}
 
-  /* HERO — susun vertikal */
   .hero{
     display:flex;flex-direction:column;align-items:stretch;
     gap:14px;min-height:auto;
@@ -408,18 +412,15 @@ body.paged-mode .video-page-footer{display:none !important}
   .card-bottom{right:0;bottom:7%}
   .sparkle-two,.sparkle-three{display:none}
 
-  /* SECTION HEADINGS */
   .section-heading{max-width:100%}
   .section-heading h2,.letter-side h2,.voice-copy h2,.closing h2{font-size:clamp(28px,7.5vw,38px)}
   .section-heading p,.letter-side>p,.voice-copy>p,.closing>p{font-size:12px;max-width:100%}
 
-  /* REASONS */
   .intro,.memories{padding-top:60px;padding-bottom:60px}
   .reason-grid{grid-template-columns:1fr;gap:12px;margin-top:28px}
   .reason-card{min-height:0;padding:22px}
   .reason-card h3{margin:20px 0 10px}
 
-  /* LETTER */
   .letter-section{grid-template-columns:1fr;gap:10px;padding-top:60px;padding-bottom:60px}
   .envelope-wrap{min-height:280px;margin-top:10px}
   .envelope{width:min(100%,300px);height:190px}
@@ -429,7 +430,6 @@ body.paged-mode .video-page-footer{display:none !important}
   .envelope-shadow{width:min(80%,240px);bottom:46px}
   .envelope-hint{margin-top:22px}
 
-  /* MEMORY BOOK */
   .memory-book{margin-top:24px}
   .book-stage{min-height:280px}
   .book-cover{width:100%;height:280px;border-radius:4px 10px 10px 4px}
@@ -446,7 +446,6 @@ body.paged-mode .video-page-footer{display:none !important}
   .book-controls button{padding:10px 12px;font-size:10px}
   .book-controls span{font-size:8px}
 
-  /* VOICE */
   .voice-section{padding-top:60px;padding-bottom:60px}
   .voice-card{padding:24px 18px;gap:18px}
   .voice-visual{height:200px}
@@ -455,14 +454,12 @@ body.paged-mode .video-page-footer{display:none !important}
   .record-center{width:30px;height:30px;font-size:16px}
   .media-controls audio{width:100%}
 
-  /* CLOSING */
   .closing{padding-top:60px;padding-bottom:60px}
   .closing-stars{margin-bottom:14px;font-size:16px}
   .closing-actions{flex-direction:column;align-items:stretch;width:100%;gap:10px;margin-top:18px}
   .closing-actions button{width:100%;margin-top:0}
   .outline-button,.closing-next{margin-top:0}
 
-  /* VIDEO */
   .video-page{padding:16px 0 0;min-height:calc(100dvh - 60px)}
   .shorts-feed{height:calc(100dvh - 60px);min-height:400px;max-width:100%;border-radius:0}
   .short-video{min-height:calc(100dvh - 60px)}
@@ -471,10 +468,11 @@ body.paged-mode .video-page-footer{display:none !important}
   .short-actions{right:8px;bottom:22px;gap:16px}
   .short-actions button>span,.profile-dot{width:36px;height:36px;font-size:20px}
 
-  /* PAGED NAV */
   body.paged-mode .page-navigation{
-    width:calc(100vw - 24px);max-width:400px;
+    left:12px;right:12px;
+    max-width:100%;
     min-height:60px;padding:7px 10px;
+    transform:none !important;
   }
   body.paged-mode .page-navigation button{flex:0 0 44px;width:44px;height:44px}
   body.paged-mode main > section.active-page:not(#videos){
@@ -499,11 +497,10 @@ body.paged-mode .video-page-footer{display:none !important}
   .book-page p{font-size:9px}
   .book-cover strong{font-size:28px}
   .book-cover-heart{font-size:24px}
-  body.paged-mode .page-navigation{width:calc(100vw - 16px);padding:6px 8px;gap:6px}
+  body.paged-mode .page-navigation{left:8px;right:8px;padding:6px 8px;gap:6px;transform:none !important}
   body.paged-mode .page-navigation button{flex:0 0 40px;width:40px;height:40px;font-size:16px}
 }
 
-/* Landscape HP */
 @media (max-height: 500px) and (orientation: landscape) {
   .hero{min-height:auto;padding-top:20px;padding-bottom:60px}
   .hero-art{height:260px}
@@ -518,3 +515,83 @@ body.paged-mode .video-page-footer{display:none !important}
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
   body.paged-mode main > section.active-page{animation:none}
 }
+
+/* =========================================================
+   PERBAIKAN SURAT — bisa discroll + ketuk di mana saja untuk kembali
+   ========================================================= */
+.letter-modal{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  padding:clamp(10px,3vh,26px) clamp(10px,3vw,24px);
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+}
+.letter-modal.show{display:flex}
+
+.letter-full{
+  position:relative;
+  z-index:1;
+  width:min(100%,650px);
+  max-width:650px;
+  max-height:calc(100dvh - 2 * clamp(10px,3vh,26px));
+  overflow-x:hidden;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+  background:#fffaf5;
+  padding:clamp(24px,5vw,48px);
+  box-shadow:0 20px 80px #0002;
+  background-image:repeating-linear-gradient(transparent,transparent 31px,#eedfe1 32px);
+  border-radius:5px;
+  cursor:pointer;
+}
+.letter-body{
+  font:clamp(13px,1.8vw,15px)/1.9 var(--serif);
+  white-space:pre-line;
+  color:#6e5960;
+  overflow-wrap:anywhere;
+}
+
+body.letter-reading{overflow:hidden !important}
+body.letter-reading > .topbar,
+body.letter-reading > .ambient,
+body.letter-reading main > footer,
+body.letter-reading > footer{display:none !important}
+
+body.letter-reading .letter-modal.show{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  display:block !important;
+  padding:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+  background:#fffaf5;
+}
+body.letter-reading .letter-modal .modal-backdrop{display:none !important}
+body.letter-reading .letter-full{
+  width:100% !important;
+  max-width:900px !important;
+  height:auto !important;
+  min-height:100dvh;
+  max-height:none !important;
+  margin:0 auto !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  padding:max(76px,calc(env(safe-area-inset-top) + 66px))
+          clamp(20px,8vw,100px)
+          max(48px,calc(env(safe-area-inset-bottom) + 32px)) !important;
+  overflow:visible !important;
+}
+body.letter-reading .letter-full .eyebrow{display:none}
