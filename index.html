@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#fff4f7">
   <title>for beautiful girl in the world</title>
   <link rel="stylesheet" href="style.css">
@@ -11,33 +11,47 @@
   <div id="surpriseIntro" class="surprise-intro" role="dialog" aria-label="Pembuka kejutan">
     <canvas id="scratchCanvas" class="scratch-canvas" aria-hidden="true"></canvas>
     <div class="scratch-prompt" id="scratchPrompt">
-      <span class="scratch-heart"></span>
+      <span class="scratch-heart">♡</span>
       <p>Gosok layar untuk membuka</p>
       <small>Gosok sebanyak 2 kali untuk melihat website ini</small>
       <div class="scratch-progress" aria-label="Progres gosokan"><span id="scratchDot1"></span><span id="scratchDot2"></span></div>
     </div>
   </div>
-  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
   <header class="topbar">
-    <a class="brand" href="#home" aria-label="Kembali ke awal"><span class="brand-heart">♡</span> <span id="brandName">little love letter</span></a>
-    <button class="music-toggle" id="musicToggle" aria-label="Putar musik"><span id="musicIcon">♫</span><span id="musicLabel">Putar musik</span></button>
+    <a class="brand" href="#home" aria-label="Kembali ke awal">
+      <span class="brand-heart">♡</span>
+      <span id="brandName">little love letter</span>
+    </a>
+    <button class="music-toggle" id="musicToggle" aria-label="Putar musik">
+      <span id="musicIcon">♫</span><span id="musicLabel">Putar musik</span>
+    </button>
   </header>
 
   <main>
     <section class="hero section" id="home">
       <div class="hero-copy">
-        <span class="eyebrow"> UNTUK SESEORANG YANG SELALU AKU SAYANGI</span>
+        <span class="eyebrow">UNTUK SESEORANG YANG SELALU AKU SAYANGI</span>
         <h1>Untuk <em id="recipientName">kamu yang pernah menjadi rumah</em>,<br> dari hati yang belum selesai mencintai.</h1>
         <p class="hero-description" id="heroMessage">Sepuluh bulan bersamamu bukan waktu yang ingin aku anggap biasa. Di sini kusimpan rasa terima kasih, rindu, dan cinta yang masih punya tempat di hatiku.</p>
         <button class="primary-button" id="startButton">Baca sesuatu dariku <span>↗</span></button>
-        <div class="hero-note"><span class="note-line"></span> untuk 10 bulan yang akan selalu berarti </div>
+        <div class="hero-note"><span class="note-line"></span> untuk 10 bulan yang akan selalu berarti</div>
       </div>
       <div class="hero-art">
         <div class="sun-disc"></div>
-        <div class="photo-frame main-frame"><img id="heroPhoto" src="assets/photos/foto-utama.jpg" alt="Foto kenangan" onerror="this.style.display='none';this.parentElement.classList.add('photo-placeholder')"><div class="photo-placeholder-text">Ganti dengan<br>foto favorit kalian ♡</div></div>
+        <div class="photo-frame main-frame">
+          <img id="heroPhoto" src="assets/photos/foto-utama.jpg" alt="Foto kenangan"
+               onerror="this.style.display='none';this.parentElement.classList.add('photo-placeholder')">
+          <div class="photo-placeholder-text">Ganti dengan<br>foto favorit kalian ♡</div>
+        </div>
         <div class="floating-card card-top"><span>✿</span><div>you were<br>my safe place</div></div>
         <div class="floating-card card-bottom"><span class="mini-heart">♥</span><div>still loved,<br>even from afar</div></div>
-        <span class="sparkle sparkle-one">✦</span><span class="sparkle sparkle-two">✧</span><span class="sparkle sparkle-three">✦</span>
+        <span class="sparkle sparkle-one">✦</span>
+        <span class="sparkle sparkle-two">✧</span>
+        <span class="sparkle sparkle-three">✦</span>
       </div>
     </section>
 
@@ -62,10 +76,17 @@
         <div class="letter-caption">untuk kamu, yang selalu kucintai sepenuh hati <span>♡</span></div>
       </div>
       <button class="envelope-wrap" id="envelopeButton" aria-label="Buka surat">
-        <div class="envelope-shadow"></div><div class="envelope">
+        <div class="envelope-shadow"></div>
+        <div class="envelope">
           <div class="envelope-back"></div>
-          <div class="letter-paper"><span class="paper-heart">♡</span><strong>Untuk Nayku.</strong><p id="letterPreview">Terima kasih sudah hadir dan menjadi bagian baik dalam ceritaku...</p><span class="paper-signature">dengan tulus ♡</span></div>
-          <div class="envelope-front"></div><div class="envelope-flap"></div>
+          <div class="letter-paper">
+            <span class="paper-heart">♡</span>
+            <strong>Untuk Nayku.</strong>
+            <p id="letterPreview">Terima kasih sudah hadir dan menjadi bagian baik dalam ceritaku...</p>
+            <span class="paper-signature">dengan tulus ♡</span>
+          </div>
+          <div class="envelope-front"></div>
+          <div class="envelope-flap"></div>
           <span class="seal">♥</span>
         </div>
         <span class="envelope-hint" id="envelopeHint">KETUK UNTUK MEMBUKA</span>
@@ -85,7 +106,7 @@
       <div class="section-heading centered">
         <span class="eyebrow">03 — MEMORY WALL</span>
         <h2>Sepuluh bulan, aku dihiasi<br>kecantikan<em> dirimu.</em></h2>
-        <p>Mungkin bagi dunia ini hanya foto biasa. Tapi Bagiku, ini istimewa .</p>
+        <p>Mungkin bagi dunia ini hanya foto biasa. Tapi bagiku, ini istimewa.</p>
       </div>
       <div class="memory-book" id="memoryBook">
         <div class="book-stage">
@@ -99,15 +120,20 @@
           <div class="book-spread" id="bookSpread" aria-live="polite">
             <article class="book-page left-page">
               <span class="book-page-number" id="leftPageNumber">01</span>
-              <div class="book-photo-wrap"><img id="leftMemoryPhoto" src="assets/photos/kenangan-1.jpg" alt="Kenangan halaman kiri"><div class="book-photo-placeholder">Foto kenangan 01</div></div>
+              <div class="book-photo-wrap">
+                <img id="leftMemoryPhoto" src="assets/photos/kenangan-1.jpg" alt="Kenangan halaman kiri">
+                <div class="book-photo-placeholder">Foto kenangan 01</div>
+              </div>
               <p id="leftMemoryCaption">senyum mu begitu indah</p>
             </article>
             <article class="book-page right-page">
               <span class="book-page-number" id="rightPageNumber">02</span>
-              <div class="book-photo-wrap"><img id="rightMemoryPhoto" src="assets/photos/kenangan-2.jpg" alt="Kenangan halaman kanan"><div class="book-photo-placeholder">Foto kenangan 02</div></div>
+              <div class="book-photo-wrap">
+                <img id="rightMemoryPhoto" src="assets/photos/kenangan-2.jpg" alt="Kenangan halaman kanan">
+                <div class="book-photo-placeholder">Foto kenangan 02</div>
+              </div>
               <p id="rightMemoryCaption">pipimu yang begitu lucu</p>
             </article>
-            <div class="page-turn" id="pageTurn"></div>
           </div>
         </div>
         <div class="book-controls">
@@ -120,54 +146,125 @@
 
     <section class="voice-section section" id="voice">
       <div class="voice-card">
-        <div class="voice-visual"><div class="record record-outer"></div><div class="record record-inner"></div><div class="record-center">♡</div><div class="sound-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-        <div class="voice-copy"><span class="eyebrow">04 — DENGARKAN INI</span><h2>Nay,<br>Apa <em>Kabarmu?</em></h2><p>Ada perasaan yang sulit dirapikan menjadi kalimat. Mungkin lagu ini bisa menemani kata-kata yang belum pandai kusampaikan.</p>
-          <div class="media-controls"><audio id="voiceAudio" controls preload="none"><source src="assets/music/pesan-suara.mp3" type="audio/mpeg"></audio><span class="media-caption"></span></div>
+        <div class="voice-visual">
+          <div class="record record-outer"></div>
+          <div class="record record-inner"></div>
+          <div class="record-center">♡</div>
+          <div class="sound-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="voice-copy">
+          <span class="eyebrow">04 — DENGARKAN INI</span>
+          <h2>Nay,<br>Apa <em>Kabarmu?</em></h2>
+          <p>Ada perasaan yang sulit dirapikan menjadi kalimat. Mungkin lagu ini bisa menemani kata-kata yang belum pandai kusampaikan.</p>
+          <div class="media-controls">
+            <audio id="voiceAudio" controls preload="none">
+              <source src="assets/music/pesan-suara.mp3" type="audio/mpeg">
+            </audio>
+          </div>
         </div>
       </div>
     </section>
 
-<section class="closing section" id="closing">
+    <section class="closing section" id="closing">
       <div class="closing-stars">✦　✧　♡　✧　✦</div>
       <span class="eyebrow"></span>
       <h2>Terima kasih untuk<br>sepuluh bulan yang <em>begitu berarti.</em></h2>
       <p id="closingMessage">Aku tidak tahu bagaimana hari-hari akan berjalan setelah ini. Aku hanya ingin kamu tahu: aku sungguh mencintaimu. Terima kasih telah menemaniku selama sepuluh bulan, untuk tawa, perhatian, dan kenangan yang akan selalu kujaga. Jika jalan kita kini berbeda, aku tetap berharap hidup memperlakukanmu dengan lembut. Kamu pernah menjadi bagian paling indah dari hariku, dan itu tidak akan kuhapus dari ingatan.</p>
-      <div class="closing-actions"><button class="outline-button" id="replayButton">Baca lagi dari awal ↻</button><button class="primary-button closing-next" id="closingNextButton">Lihat cewe cantik →</button></div>
+      <div class="closing-actions">
+        <button class="outline-button" id="replayButton">Baca lagi dari awal ↻</button>
+        <button class="primary-button closing-next" id="closingNextButton">Lihat cewe cantik →</button>
+      </div>
       <div class="closing-signature"></div>
     </section>
+
     <section class="video-page section" id="videos">
       <button class="video-back-button" id="videoBackButton" aria-label="Kembali ke halaman penutup">← Kembali</button>
       <audio id="videoMusic" src="assets/music/audio-video.mp3" loop preload="none"></audio>
       <div class="shorts-feed" id="shortsFeed">
         <article class="short-video" data-video-index="0">
-          <video src="assets/videos/video-1.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-1.jpg"></video><div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
-          <div class="video-gradient"></div><div class="short-caption"><span class="video-handle">@untukmu · 1/5</span><p>Ada banyak hal indah di dunia ini, tapi entah kenapa mataku selalu punya alasan untuk memilih kamu sebagai yang paling indah.</p><span class="caption-tags">#kenangan #ceritakita</span></div>
-          <div class="short-actions"><div class="profile-dot">♡</div><button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button><button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button><button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button></div>
+          <video src="assets/videos/video-1.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-1.jpg"></video>
+          <div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
+          <div class="video-gradient"></div>
+          <div class="short-caption">
+            <span class="video-handle">@untukmu · 1/5</span>
+            <p>Ada banyak hal indah di dunia ini, tapi entah kenapa mataku selalu punya alasan untuk memilih kamu sebagai yang paling indah.</p>
+            <span class="caption-tags">#kenangan #ceritakita</span>
+          </div>
+          <div class="short-actions">
+            <div class="profile-dot">♡</div>
+            <button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button>
+            <button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button>
+            <button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button>
+          </div>
         </article>
         <article class="short-video" data-video-index="1">
-          <video src="assets/videos/video-2.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-2.jpg"></video><div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
-          <div class="video-gradient"></div><div class="short-caption"><span class="video-handle">@untukmu · 2/5</span><p>Senyum kamu itu sederhana, tapi punya cara sendiri buat bikin hari yang biasa aja terasa jauh lebih indah.</p><span class="caption-tags">#littlemoments #memory</span></div>
-          <div class="short-actions"><div class="profile-dot">♡</div><button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button><button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button><button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button></div>
+          <video src="assets/videos/video-2.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-2.jpg"></video>
+          <div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
+          <div class="video-gradient"></div>
+          <div class="short-caption">
+            <span class="video-handle">@untukmu · 2/5</span>
+            <p>Senyum kamu itu sederhana, tapi punya cara sendiri buat bikin hari yang biasa aja terasa jauh lebih indah.</p>
+            <span class="caption-tags">#littlemoments #memory</span>
+          </div>
+          <div class="short-actions">
+            <div class="profile-dot">♡</div>
+            <button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button>
+            <button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button>
+            <button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button>
+          </div>
         </article>
         <article class="short-video" data-video-index="2">
-          <video src="assets/videos/video-3.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-3.jpg"></video><div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
-          <div class="video-gradient"></div><div class="short-caption"><span class="video-handle">@untukmu · 3/5</span><p>Kamu ngga perlu berusaha jadi sempurna untuk terlihat cantik. Jadi diri kamu sendiri aja, itu udah lebih dari cukup.</p><span class="caption-tags">#ourstory #sweetmemory</span></div>
-          <div class="short-actions"><div class="profile-dot">♡</div><button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button><button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button><button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button></div>
+          <video src="assets/videos/video-3.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-3.jpg"></video>
+          <div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
+          <div class="video-gradient"></div>
+          <div class="short-caption">
+            <span class="video-handle">@untukmu · 3/5</span>
+            <p>Kamu ngga perlu berusaha jadi sempurna untuk terlihat cantik. Jadi diri kamu sendiri aja, itu udah lebih dari cukup.</p>
+            <span class="caption-tags">#ourstory #sweetmemory</span>
+          </div>
+          <div class="short-actions">
+            <div class="profile-dot">♡</div>
+            <button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button>
+            <button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button>
+            <button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button>
+          </div>
         </article>
         <article class="short-video" data-video-index="3">
-          <video src="assets/videos/video-4.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-4.jpg"></video><div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
-          <div class="video-gradient"></div><div class="short-caption"><span class="video-handle">@untukmu · 4/5</span><p>Cantik itu mungkin kata yang terlalu sederhana buat menggambarkan kamu. Soalnya, ada sesuatu dari kamu yang susah dijelaskan, tapi gampang banget dikagumi.</p><span class="caption-tags">#moments #for-you</span></div>
-          <div class="short-actions"><div class="profile-dot">♡</div><button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button><button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button><button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button></div>
+          <video src="assets/videos/video-4.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-4.jpg"></video>
+          <div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
+          <div class="video-gradient"></div>
+          <div class="short-caption">
+            <span class="video-handle">@untukmu · 4/5</span>
+            <p>Cantik itu mungkin kata yang terlalu sederhana buat menggambarkan kamu. Soalnya, ada sesuatu dari kamu yang susah dijelaskan, tapi gampang banget dikagumi.</p>
+            <span class="caption-tags">#moments #for-you</span>
+          </div>
+          <div class="short-actions">
+            <div class="profile-dot">♡</div>
+            <button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button>
+            <button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button>
+            <button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button>
+          </div>
         </article>
         <article class="short-video" data-video-index="4">
-          <video src="assets/videos/video-5.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-5.jpg"></video><div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
-          <div class="video-gradient"></div><div class="short-caption"><span class="video-handle">@untukmu · 5/5</span><p>Kalau ada yang tanya apa hal favoritku, mungkin jawabannya bukan sebuah tempat atau benda. Tapi seseorang yang bahkan tanpa sadar bisa bikin aku kagum berkali-kali: kamu.</p><span class="caption-tags">#memorylane #always</span></div>
-          <div class="short-actions"><div class="profile-dot">♡</div><button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button><button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button><button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button></div>
+          <video src="assets/videos/video-5.mp4" muted playsinline loop preload="metadata" poster="assets/photos/video-cover-5.jpg"></video>
+          <div class="video-placeholder"><span>♡</span><strong></strong><small></small></div>
+          <div class="video-gradient"></div>
+          <div class="short-caption">
+            <span class="video-handle">@untukmu · 5/5</span>
+            <p>Kalau ada yang tanya apa hal favoritku, mungkin jawabannya bukan sebuah tempat atau benda. Tapi seseorang yang bahkan tanpa sadar bisa bikin aku kagum berkali-kali: kamu.</p>
+            <span class="caption-tags">#memorylane #always</span>
+          </div>
+          <div class="short-actions">
+            <div class="profile-dot">♡</div>
+            <button class="like-button" aria-label="Sukai video"><span>♡</span><small class="like-count">Like</small></button>
+            <button class="comment-button" aria-label="Komentar"><span>▢</span><small>Comment</small></button>
+            <button class="share-button" aria-label="Bagikan"><span>↗</span><small>Share</small></button>
+          </div>
         </article>
       </div>
     </section>
-  </div>
-  <script src="script.js"></script>
   </main>
+
+  <script src="script.js"></script>
 </body>
 </html>

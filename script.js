@@ -39,6 +39,7 @@ Have a nice day, nayku..`,
 };
 
 const $ = (id) => document.getElementById(id);
+
 $("brandName").textContent = CONFIG.brand;
 $("recipientName").textContent = CONFIG.recipientName;
 $("heroMessage").textContent = CONFIG.heroMessage;
@@ -49,8 +50,7 @@ $("letterBody").textContent = CONFIG.letterBody.replace(/\\n/g, "\n");
 $("letterSignoff").textContent = CONFIG.letterSignoff;
 $("closingMessage").textContent = CONFIG.closingMessage;
 
-// Video Nay tidak boleh mengeluarkan suara. Kontrol play/pause dan timeline
-// tetap tersedia, sementara musik-latar diputar melalui audio terpisah.
+// Video Nay tidak boleh mengeluarkan suara.
 const nayMemoryVideo = $("nayMemoryVideo");
 if (nayMemoryVideo) {
   nayMemoryVideo.muted = true;
@@ -69,11 +69,15 @@ bgMusic.loop = true;
 bgMusic.volume = 1.0;
 let musicPlaying = false;
 let backgroundWasPlaying = true;
+
 function syncMusicButton(playing) {
   musicPlaying = playing;
-  $("musicIcon").textContent = playing ? "Ⅱ" : "♫";
-  $("musicLabel").textContent = playing ? "Jeda musik" : "Putar musik";
-  $("musicToggle").setAttribute("aria-label", playing ? "Jeda musik" : "Putar musik");
+  const icon = $("musicIcon");
+  const label = $("musicLabel");
+  const btn = $("musicToggle");
+  if (icon) icon.textContent = playing ? "Ⅱ" : "♫";
+  if (label) label.textContent = playing ? "Jeda musik" : "Putar musik";
+  if (btn) btn.setAttribute("aria-label", playing ? "Jeda musik" : "Putar musik");
 }
 async function playBackgroundMusic() {
   try { await bgMusic.play(); syncMusicButton(true); return true; }
@@ -82,8 +86,6 @@ async function playBackgroundMusic() {
 function pauseBackgroundMusic() {
   bgMusic.pause(); syncMusicButton(false);
 }
-// Coba autoplay saat halaman dibuka. Browser yang memblokir autoplay audio
-// akan memulai musik setelah interaksi pertama pengguna.
 playBackgroundMusic();
 ["pointerdown", "keydown", "touchstart"].forEach(type => {
   document.addEventListener(type, () => {
@@ -100,6 +102,7 @@ $("musicToggle").addEventListener("click", async () => {
   }
 });
 
+/* ---------- Envelope & Letter Modal ---------- */
 const envelope = $("envelopeButton");
 const modal = $("letterModal");
 envelope.addEventListener("click", () => {
@@ -109,7 +112,6 @@ envelope.addEventListener("click", () => {
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("letter-reading");
-    // Surat selalu dibuka dari posisi paling atas.
     window.scrollTo({ top: 0, behavior: "auto" });
     modal.scrollTop = 0;
     const letterCard = modal.querySelector(".letter-full");
@@ -120,43 +122,46 @@ function closeLetter() {
   modal.classList.remove("show");
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("letter-reading");
-  // Reset posisi scroll surat supaya saat dibuka lagi dimulai dari awal.
   modal.scrollTop = 0;
   const letterCard = modal.querySelector(".letter-full");
   if (letterCard) letterCard.scrollTop = 0;
-  // Kembalikan amplop ke keadaan semula agar surat dapat dibuka lagi.
   envelope.classList.remove("open");
   $("envelopeHint").textContent = "KETUK UNTUK MEMBUKA";
   envelope.focus({ preventScroll: true });
 }
-// Ketuk di mana saja pada tampilan surat untuk kembali. Geseran untuk membaca
-// tidak menutup surat karena event click tidak dipicu setelah gerakan scroll.
+// Tap di backdrop (area gelap) untuk menutup surat.
 modal.addEventListener("click", event => {
-  if (modal.classList.contains("show")) closeLetter();
+  if (!modal.classList.contains("show")) return;
+  if (event.target.closest(".letter-full")) return;
+  closeLetter();
 });
-document.addEventListener("keydown", e => { if ((e.key === "Escape" || e.key === "Backspace") && modal.classList.contains("show")) { e.preventDefault(); closeLetter(); } });
-$("startButton").addEventListener("click", () => window.showGiftPage?.(1));
-$("replayButton").addEventListener("click", () => window.showGiftPage?.(0));
-$("closingNextButton").addEventListener("click", () => window.showGiftPage?.(document.querySelectorAll("main > section").length - 1));
-$("voiceAudio").src = CONFIG.voiceMessage;
-
-  
-// Pesan-suara mengambil alih audio selama diputar.
-const voiceAudio = $("voiceAudio");
-voiceAudio.volume = 0.8;
-voiceAudio.addEventListener("play", () => {
-  backgroundWasPlaying = backgroundWasPlaying || musicPlaying || !bgMusic.paused;
-  pauseBackgroundMusic();
-});
-voiceAudio.addEventListener("ended", () => {
-  if (!document.body.classList.contains("video-page-active") && backgroundWasPlaying) {
-    playBackgroundMusic();
+document.addEventListener("keydown", e => {
+  if ((e.key === "Escape" || e.key === "Backspace") && modal.classList.contains("show")) {
+    e.preventDefault();
+    closeLetter();
   }
 });
 
+$("startButton").addEventListener("click", () => window.showGiftPage?.(1));
+$("replayButton").addEventListener("click", () => window.showGiftPage?.(0));
+$("closingNextButton").addEventListener("click", () => window.showGiftPage?.(document.querySelectorAll("main > section").length - 1));
 
+const voiceAudio = $("voiceAudio");
+if (voiceAudio) {
+  voiceAudio.src = CONFIG.voiceMessage;
+  voiceAudio.volume = 0.8;
+  voiceAudio.addEventListener("play", () => {
+    backgroundWasPlaying = backgroundWasPlaying || musicPlaying || !bgMusic.paused;
+    pauseBackgroundMusic();
+  });
+  voiceAudio.addEventListener("ended", () => {
+    if (!document.body.classList.contains("video-page-active") && backgroundWasPlaying) {
+      playBackgroundMusic();
+    }
+  });
+}
 
-/* MODE HALAMAN: setiap bagian tampil sendiri dengan tombol Selanjutnya */
+/* ---------- Mode Halaman (satu bagian per halaman) ---------- */
 (function setupPageNavigation(){
   const pageIds = ["home","little-things","letter","memories","voice","closing","videos"];
   const pages = pageIds.map(id => document.getElementById(id)).filter(Boolean);
@@ -166,47 +171,58 @@ voiceAudio.addEventListener("ended", () => {
 
   pages.forEach((page, index) => {
     page.classList.toggle("active-page", index === 0);
+    page.setAttribute("aria-hidden", index === 0 ? "false" : "true");
     if (page.id === "videos") return;
+
     const nav = document.createElement("nav");
     nav.className = "page-navigation";
     nav.setAttribute("aria-label", "Navigasi halaman");
+
     const back = document.createElement("button");
     back.className = "page-back";
     back.type = "button";
     back.textContent = "<";
     back.disabled = index === 0;
     if (index === 0) back.style.visibility = "hidden";
+
     const counter = document.createElement("span");
     counter.className = "page-counter";
     counter.textContent = String(index + 1).padStart(2,"0") + " / " + String(pages.length).padStart(2,"0");
+
     const next = document.createElement("button");
     next.className = "page-next";
     next.type = "button";
     next.textContent = ">";
+
     back.addEventListener("click", () => showPage(index - 1));
     next.addEventListener("click", () => showPage(index === pages.length - 1 ? 0 : index + 1));
-    if (page.id === "closing" || page.id === "videos") nav.append(back, counter);
-    else nav.append(back, counter, next);
+
+    if (page.id === "closing" || page.id === "videos") {
+      nav.append(back, counter);
+    } else {
+      nav.append(back, counter, next);
+    }
     nav.dataset.pageId = page.id;
     nav.hidden = index !== 0;
     document.body.appendChild(nav);
   });
 
   window.showGiftPage = showPage;
+
   function showPage(index) {
     currentPage = Math.max(0, Math.min(index, pages.length - 1));
     pages.forEach((page, i) => {
       page.classList.toggle("active-page", i === currentPage);
       page.setAttribute("aria-hidden", i === currentPage ? "false" : "true");
     });
-    window.scrollTo({top: 0, behavior: "smooth"});
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     const active = pages[currentPage];
     document.querySelectorAll(".page-navigation").forEach(nav => {
       nav.hidden = nav.dataset.pageId !== active.id;
     });
 
-     // Hentikan pesan-suara setiap kali pengguna berpindah halaman.
-    const voiceAudio = $("voiceAudio");
+    // Hentikan pesan-suara setiap berpindah halaman
     if (voiceAudio && !voiceAudio.paused) {
       voiceAudio.pause();
       voiceAudio.currentTime = 0;
@@ -214,6 +230,7 @@ voiceAudio.addEventListener("ended", () => {
 
     const heading = active.querySelector("h1,h2");
     if (heading) heading.setAttribute("tabindex","-1");
+
     if (active.id === "videos") {
       document.body.classList.add("video-page-active");
       backgroundWasPlaying = backgroundWasPlaying || musicPlaying || !bgMusic.paused;
@@ -233,9 +250,7 @@ voiceAudio.addEventListener("ended", () => {
     }
   }
 
-
-  // Geser kiri/kanan pada layar sentuh untuk berpindah halaman.
-  // Abaikan geseran di video, kontrol media, buku foto, dan saat surat terbuka.
+  // Swipe kiri/kanan
   let touchStartX = 0, touchStartY = 0, touchStartAt = 0;
   document.addEventListener("touchstart", event => {
     if (!event.touches || event.touches.length !== 1) return;
@@ -257,7 +272,7 @@ voiceAudio.addEventListener("ended", () => {
   }, { passive: true });
 })();
 
-/* BUKU KENANGAN: sampul terbuka, halaman dapat dibalik. */
+/* ---------- Buku Kenangan ---------- */
 (function setupMemoryBook(){
   const memories = [
     {left:"assets/photos/kenangan-1.jpg", right:"assets/photos/kenangan-2.jpg", leftText:"senyummu yang begitu manis", rightText:"Pipimu yang begitu lucu"},
@@ -270,8 +285,10 @@ voiceAudio.addEventListener("ended", () => {
   const spreadEl = $("bookSpread");
   const prev = $("bookPrev");
   const next = $("bookNext");
+
   function setImage(imgId, src) {
     const img = $(imgId);
+    if (!img) return;
     img.src = src;
     img.style.display = "block";
     img.parentElement.classList.remove("no-photo");
@@ -302,72 +319,94 @@ voiceAudio.addEventListener("ended", () => {
   next.addEventListener("click", () => {
     if (spread === -1) return;
     if (spread >= memories.length - 1) {
-      spread = -1; cover.classList.remove("cover-open"); book.classList.remove("book-open");
-      prev.disabled = true; next.disabled = true; next.textContent = ">"; $("bookCounter").textContent = "Sampul buku";
+      spread = -1;
+      cover.classList.remove("cover-open");
+      book.classList.remove("book-open");
+      prev.disabled = true; next.disabled = true;
+      next.textContent = ">"; $("bookCounter").textContent = "Sampul buku";
       return;
     }
     spreadEl.classList.add("turning");
-    window.setTimeout(() => { spread += 1; renderSpread(); spreadEl.classList.remove("turning"); }, 280);
+    window.setTimeout(() => {
+      spread += 1;
+      renderSpread();
+      spreadEl.classList.remove("turning");
+    }, 280);
   });
   prev.addEventListener("click", () => {
     if (spread <= 0) return;
     spreadEl.classList.add("turning-back");
-    window.setTimeout(() => { spread -= 1; renderSpread(); spreadEl.classList.remove("turning-back"); }, 280);
+    window.setTimeout(() => {
+      spread -= 1;
+      renderSpread();
+      spreadEl.classList.remove("turning-back");
+    }, 280);
   });
 })();
 
-
-/* VIDEO DIARY: semua video mute secara default, audio MP3 terpisah dan off. */
+/* ---------- Video Diary ---------- */
 (function setupVideoDiary(){
   const feed = $("shortsFeed");
+  if (!feed) return;
   const cards = [...document.querySelectorAll(".short-video")];
   const audio = $("videoMusic");
-  audio.src = CONFIG.videoMusic;
-  audio.volume = 0.55;
+  if (audio) {
+    audio.src = CONFIG.videoMusic;
+    audio.volume = 0.55;
+  }
   let audioStarted = false;
   async function startSeparateAudio() {
-    try { await audio.play(); audioStarted = true; } catch { /* Browser may require a user gesture. */ }
+    if (!audio) return;
+    try { await audio.play(); audioStarted = true; } catch { /* butuh gesture user */ }
   }
-  function stopSeparateAudio() { audio.pause(); audio.currentTime = 0; audioStarted = false; }
+  function stopSeparateAudio() {
+    if (!audio) return;
+    audio.pause(); audio.currentTime = 0; audioStarted = false;
+  }
   window.startVideoDiaryAudio = startSeparateAudio;
   window.stopVideoDiaryAudio = stopSeparateAudio;
-  // Audio-video otomatis dicoba saat halaman video dibuka; video tetap muted.
+
   feed.addEventListener("click", startSeparateAudio);
-  cards.forEach((card, i) => {
+
+  cards.forEach((card) => {
     const video = card.querySelector("video");
+    if (!video) return;
     video.muted = true;
     video.defaultMuted = true;
     video.addEventListener("loadeddata", () => card.classList.add("video-loaded"));
     video.addEventListener("canplay", () => card.classList.add("video-loaded"));
     video.addEventListener("error", () => card.classList.remove("video-loaded"));
-    // Tombol Like, Comment, dan Share hanya dekorasi/pajangan.
-    // Tidak diberi event klik agar tidak menjalankan fitur apa pun.
     card.querySelectorAll(".like-button, .comment-button, .share-button").forEach(button => {
       button.setAttribute("aria-disabled", "true");
       button.setAttribute("tabindex", "-1");
     });
   });
+
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         const video = entry.target.querySelector("video");
         if (entry.isIntersecting && entry.intersectionRatio > .55) {
           if (video && video.readyState >= 2) video.play().catch(()=>{});
-        } else if (video) video.pause();
+        } else if (video) {
+          video.pause();
+        }
       });
-    }, {root:feed, threshold:[0,.55,.8]});
+    }, { root: feed, threshold: [0, .55, .8] });
     cards.forEach(card => observer.observe(card));
   }
-  $("videoBackButton").addEventListener("click", () => {
-    stopSeparateAudio();
-    cards.forEach(card => { const v = card.querySelector("video"); if (v) v.pause(); });
-    window.showGiftPage?.(5);
-  });
+
+  const backBtn = $("videoBackButton");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      stopSeparateAudio();
+      cards.forEach(card => { const v = card.querySelector("video"); if (v) v.pause(); });
+      window.showGiftPage?.(5);
+    });
+  }
 })();
 
-
-/* Penghalang sederhana untuk menyulitkan penyimpanan aset dari antarmuka.
-   Ini bukan perlindungan mutlak: aset publik tetap dapat diambil dari browser/server. */
+/* ---------- Proteksi aset sederhana ---------- */
 document.addEventListener("contextmenu", event => {
   if (event.target.closest("img, video, audio")) event.preventDefault();
 });
@@ -383,8 +422,7 @@ document.querySelectorAll("img, video").forEach(el => {
   el.addEventListener("contextmenu", e => e.preventDefault());
 });
 
-
-/* PEMBUKA SURPRISE: satu gosokan = satu gerakan usap; perlu dua gerakan */
+/* ---------- Pembuka Surprise (gosok 2 kali) ---------- */
 (function setupScratchSurprise(){
   const intro = document.getElementById('surpriseIntro');
   const canvas = document.getElementById('scratchCanvas');
@@ -397,6 +435,7 @@ document.querySelectorAll("img, video").forEach(el => {
   let last = null;
   let completed = false;
   const dots = [document.getElementById('scratchDot1'), document.getElementById('scratchDot2')];
+
   function resizeCanvas(){
     const ratio = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(window.innerWidth * ratio);
@@ -408,15 +447,23 @@ document.querySelectorAll("img, video").forEach(el => {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
   }
-  function point(e){ return {x:e.clientX, y:e.clientY}; }
+  function point(e){ return { x: e.clientX, y: e.clientY }; }
   function scratch(from, to){
-    ctx.save(); ctx.globalCompositeOperation = 'destination-out';
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = Math.max(48, Math.min(window.innerWidth, window.innerHeight) * .13);
-    ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke(); ctx.restore();
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = Math.max(48, Math.min(window.innerWidth, window.innerHeight) * .13);
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.lineTo(to.x, to.y);
+    ctx.stroke();
+    ctx.restore();
   }
   function finishStroke(){
     if (!drawing) return;
-    drawing = false; last = null;
+    drawing = false;
+    last = null;
     if (moved >= Math.max(45, Math.min(window.innerWidth, window.innerHeight) * .12)) {
       strokes = Math.min(2, strokes + 1);
       if (dots[strokes - 1]) dots[strokes - 1].classList.add('done');
@@ -428,18 +475,26 @@ document.querySelectorAll("img, video").forEach(el => {
     if (completed) return;
     completed = true;
     intro.classList.add('is-opening');
-    window.setTimeout(() => { intro.remove(); document.body.classList.add('surprise-opened'); }, 820);
+    window.setTimeout(() => {
+      intro.remove();
+      document.body.classList.add('surprise-opened');
+    }, 820);
   }
   canvas.addEventListener('pointerdown', e => {
     if (completed) return;
-    e.preventDefault(); drawing = true; moved = 0; last = point(e);
+    e.preventDefault();
+    drawing = true;
+    moved = 0;
+    last = point(e);
     try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
   });
   canvas.addEventListener('pointermove', e => {
     if (!drawing || !last || completed) return;
-    e.preventDefault(); const next = point(e);
+    e.preventDefault();
+    const next = point(e);
     moved += Math.hypot(next.x - last.x, next.y - last.y);
-    scratch(last, next); last = next;
+    scratch(last, next);
+    last = next;
   });
   canvas.addEventListener('pointerup', finishStroke);
   canvas.addEventListener('pointercancel', finishStroke);
