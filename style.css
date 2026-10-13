@@ -1051,3 +1051,76 @@ body.paged-mode main > section.active-page:not(#videos) {
   body.paged-mode #memories .book-spread { grid-template-columns: minmax(0,1fr); }
   body.paged-mode #memories .right-page { display: none; }
 }
+
+/* FINAL MOBILE FIX: halaman dan tombol navigasi tidak melebar di HP */
+html, body { max-width: 100%; overflow-x: clip; }
+body.paged-mode main { width: 100%; min-width: 0; }
+body.paged-mode main > section.active-page {
+  width: 100%; max-width: 100%; min-width: 0;
+  overflow-x: clip; overflow-wrap: anywhere;
+}
+body.paged-mode main > section.active-page img,
+body.paged-mode main > section.active-page video,
+body.paged-mode main > section.active-page audio { max-width: 100%; }
+body.paged-mode main > section.active-page .page-navigation { width: 100%; }
+body.paged-mode .page-navigation {
+  box-shadow: 0 -3px 10px rgba(76, 48, 57, .045) !important;
+  border-top: 1px solid rgba(238,221,225,.75);
+}
+body.paged-mode .page-navigation .page-back,
+body.paged-mode .page-navigation .page-next {
+  flex: 1 1 0; min-width: 0; max-width: 46%;
+  overflow-wrap: anywhere; white-space: normal;
+}
+@media (max-width: 760px) {
+  /* Hilangkan bayangan/bercak latar yang terlalu besar di layar kecil. */
+  .ambient { width: 110px !important; height: 110px !important; filter: blur(34px) !important; opacity: .12 !important; }
+  .ambient-one { left: -65px !important; top: 65px !important; }
+  .ambient-two { right: -70px !important; top: 58% !important; }
+  body.paged-mode main > section.active-page:not(#videos) {
+    min-height: calc(100svh - 62px) !important;
+    height: auto !important; max-height: none !important;
+    padding-bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+  }
+  body.paged-mode .page-navigation {
+    left: max(8px, env(safe-area-inset-left)) !important;
+    right: max(8px, env(safe-area-inset-right)) !important;
+    min-height: 54px !important;
+    padding: 7px 8px max(7px, env(safe-area-inset-bottom)) !important;
+    gap: 6px !important;
+    background: rgba(255,249,247,.98) !important;
+    backdrop-filter: blur(7px) !important;
+  }
+  body.paged-mode .page-navigation .page-back,
+  body.paged-mode .page-navigation .page-next {
+    flex: 1 1 0 !important; width: auto !important; max-width: none !important;
+    min-height: 38px !important; padding: 8px 7px !important;
+    font-size: clamp(10px, 2.8vw, 12px) !important;
+    line-height: 1.2 !important; border-radius: 5px !important;
+  }
+  body.paged-mode .page-navigation .page-counter {
+    flex: 0 0 auto !important; max-width: 52px; font-size: 9px !important;
+    letter-spacing: .4px !important;
+  }
+  body.paged-mode #home .main-frame,
+  body.paged-mode #home .sun-disc,
+  body.paged-mode .voice-card,
+  body.paged-mode #memories .book-spread,
+  body.paged-mode #memories .book-cover {
+    box-shadow: 0 5px 14px rgba(80, 48, 59, .10) !important;
+  }
+  body.paged-mode #letter .envelope { filter: drop-shadow(0 5px 7px rgba(141,93,101,.09)) !important; }
+  body.paged-mode #letter .envelope-shadow { width: min(58%, 190px) !important; height: 9px !important; filter: blur(5px) !important; opacity: .65; }
+  body.paged-mode #closing .closing-actions { gap: 6px !important; }
+  body.paged-mode #closing .closing-actions button { max-width: 100%; }
+}
+@media (max-width: 390px) {
+  body.paged-mode .page-navigation { gap: 4px !important; }
+  body.paged-mode .page-navigation .page-back,
+  body.paged-mode .page-navigation .page-next { padding: 7px 5px !important; font-size: 10px !important; }
+  body.paged-mode .page-navigation .page-counter { max-width: 43px; font-size: 8px !important; }
+  body.paged-mode #memories .book-stage { min-height: 250px !important; }
+  body.paged-mode #memories .book-cover { height: 250px !important; }
+  body.paged-mode #memories .book-spread { min-height: 250px !important; }
+  body.paged-mode #memories .book-photo-wrap { height: 155px !important; }
+}
